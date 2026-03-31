@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Silent Rebuild – Begleitung</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Lora:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --orange: #C8691A;
+    --orange-light: #D4833A;
+    --bg: #111009;
+    --border: #2a2318;
+    --text: #e8e0d4;
+    --text-dim: #7a6f62;
+    --text-muted: #3d3529;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Lora', serif; min-height: 100vh; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 40px 20px; }
+
+  /* Header */
+  .brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .brand-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; }
+  .brand-line { flex: 1; height: 1px; background: var(--border); }
+  h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.2rem, 8vw, 3.8rem); font-weight: 800; line-height: 1.05; letter-spacing: 0.02em; text-transform: uppercase; color: var(--text); margin-bottom: 8px; }
+  h1 span { color: var(--orange); }
+  .subtitle { font-family: 'Lora', serif; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 28px; }
+
+  /* NC Counter */
+  .nc-box { background: #14100a; border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 22px 26px; margin-bottom: 32px; }
+  .label-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  .nc-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+  .nc-label { font-family: 'Lora', serif; font-size: 0.82rem; color: var(--text-dim); font-style: italic; line-height: 1.7; max-width: 280px; }
+  .nc-reset-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0; margin-top: 8px; display: block; transition: color 0.2s; }
+  .nc-reset-btn:hover { color: #8a3a1a; }
+  .nc-controls { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .nc-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); width: 40px; height: 40px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-family: monospace; }
+  .nc-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .nc-num-wrap { text-align: center; min-width: 80px; }
+  .nc-num { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(3rem, 10vw, 5rem); font-weight: 800; color: var(--orange); line-height: 1; }
+  .nc-unit { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.22em; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 32px; }
+  .tab-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 14px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; transition: all 0.2s; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .tab-btn:hover { border-color: #4a3e2e; color: var(--text); }
+  .tab-btn.active { border-color: var(--orange); color: var(--orange); background: rgba(200,105,26,0.05); }
+  .tab-icon { color: #5a4a38; font-weight: 700; transition: color 0.2s; }
+  .tab-btn.active .tab-icon { color: var(--orange); }
+
+  /* Section header */
+  .sec-header { margin-bottom: 20px; }
+  .sec-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+  .sec-sub { font-family: 'Lora', serif; font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+
+  /* Cards */
+  .card { border-bottom: 1px solid var(--border); padding: 18px 0; cursor: pointer; }
+  .card:first-child { border-top: 1px solid var(--border); }
+  .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); transition: color 0.2s; display: flex; justify-content: space-between; align-items: center; }
+  .card:hover .card-title { color: var(--orange-light); }
+  .card-plus { font-size: 1rem; color: var(--text-muted); transition: transform 0.2s, color 0.2s; display: inline-block; margin-left: 12px; flex-shrink: 0; }
+  .card.open .card-plus { transform: rotate(45deg); color: var(--orange); }
+  .card-body { font-family: 'Lora', serif; font-size: 0.82rem; line-height: 1.85; color: var(--text-dim); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s; }
+  .card.open .card-body { max-height: 300px; padding-top: 12px; }
+
+  /* Divider */
+  .divider { display: flex; align-items: center; gap: 12px; margin: 32px 0; }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-dot { width: 5px; height: 5px; background: var(--orange); border-radius: 50%; }
+
+  /* Mantra */
+  .mantra-box { border-left: 2px solid var(--orange); padding-left: 18px; margin-top: 10px; }
+  .mantra-text { font-family: 'Lora', serif; font-size: 1rem; font-style: italic; color: var(--text); line-height: 1.75; }
+  .mantra-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 7px 16px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; margin-top: 14px; }
+  .mantra-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* Footer */
+  .footer { padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+  .footer-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; }
+  .footer-tagline { font-family: 'Lora', serif; font-size: 0.65rem; color: var(--text-muted); font-style: italic; }
+
+  /* Quiz */
+  .progress-bar { height: 2px; background: var(--border); margin-bottom: 32px; }
+  .progress-fill { height: 100%; background: var(--orange); transition: width 0.4s ease; }
+  .quiz-intro-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+  .quiz-intro-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 800; text-transform: uppercase; line-height: 1.05; color: var(--text); margin-bottom: 10px; }
+  .quiz-intro-title span { color: var(--orange); }
+  .quiz-intro-body { font-family: 'Lora', serif; font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; max-width: 500px; margin-bottom: 28px; }
+  .quiz-q-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.1rem, 4vw, 1.5rem); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); margin-bottom: 24px; line-height: 1.2; }
+  .quiz-options { display: flex; flex-direction: column; gap: 6px; margin-bottom: 28px; }
+  .option-btn { width: 100%; text-align: left; background: #14100a; border: 1px solid var(--border); color: var(--text-dim); padding: 14px 18px; cursor: pointer; font-family: 'Lora', serif; font-size: 0.83rem; line-height: 1.55; transition: all 0.18s; display: flex; align-items: center; gap: 13px; }
+  .option-btn:hover { border-color: #5a4030; color: var(--text); background: #1a140e; }
+  .option-btn.selected { border-color: var(--orange); color: var(--text); background: rgba(200,105,26,0.07); }
+  .option-dot { width: 13px; height: 13px; border-radius: 50%; border: 1px solid #4a3a28; flex-shrink: 0; transition: all 0.18s; }
+  .option-btn.selected .option-dot { background: var(--orange); border-color: var(--orange); }
+  .quiz-nav { display: flex; align-items: center; gap: 16px; }
+  .next-btn { background: var(--orange); border: none; color: #0a0806; padding: 13px 28px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; transition: all 0.2s; }
+  .next-btn:disabled { opacity: 0.25; cursor: default; }
+  .next-btn:not(:disabled):hover { background: var(--orange-light); }
+  .step-count { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); }
+  .result-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+  .result-name { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 800; text-transform: uppercase; line-height: 1; color: var(--orange); margin-bottom: 6px; }
+  .result-bar { height: 2px; background: var(--orange); width: 50px; margin-bottom: 24px; opacity: 0.5; }
+  .result-desc { font-family: 'Lora', serif; font-size: 0.86rem; color: var(--text-dim); line-height: 1.85; margin-bottom: 28px; }
+  .motivation-box { border-left: 2px solid var(--orange); padding-left: 16px; margin-bottom: 28px; }
+  .motivation-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+  .motivation-text { font-family: 'Lora', serif; font-size: 0.9rem; font-style: italic; color: var(--text); line-height: 1.75; }
+  .actions-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+  .action-item { display: flex; gap: 14px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--border); }
+  .action-item:first-of-type { border-top: 1px solid var(--border); }
+  .action-num { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+  .action-text { font-family: 'Lora', serif; font-size: 0.82rem; color: var(--text-dim); line-height: 1.7; }
+  .restart-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 22px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; margin-top: 20px; }
+  .restart-btn:hover { border-color: #5a4030; color: var(--text); }
+  .result-note { font-family: 'Lora', serif; font-size: 0.7rem; color: var(--text-muted); font-style: italic; margin-top: 24px; line-height: 1.6; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fadeIn 0.35s ease forwards; }
+  #view-quiz, #view-content { display: none; }
+  #view-quiz.active, #view-content.active { display: block; }
+
+  /* Password gate */
+  #pw-gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 24px; }
+  #pw-gate.hidden { display: none; }
+  .pw-box { max-width: 420px; width: 100%; }
+  .pw-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
+  .pw-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+  .pw-brand-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; }
+  .pw-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem, 8vw, 3rem); font-weight: 800; text-transform: uppercase; line-height: 1.05; color: var(--text); margin-bottom: 8px; }
+  .pw-title span { color: var(--orange); }
+  .pw-sub { font-family: 'Lora', serif; font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin-bottom: 28px; line-height: 1.7; }
+  .pw-input { width: 100%; background: #14100a; border: 1px solid var(--border); border-left: 3px solid var(--orange); color: var(--text); padding: 14px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; letter-spacing: 0.1em; outline: none; margin-bottom: 12px; transition: border-color 0.2s; display: block; }
+  .pw-input:focus { border-color: var(--orange-light); }
+  .pw-input.error { border-color: #a03020; }
+  .pw-input::placeholder { color: var(--text-muted); letter-spacing: 0.05em; }
+  .pw-btn { width: 100%; background: var(--orange); border: none; color: #0a0806; padding: 14px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; transition: background 0.2s; }
+  .pw-btn:hover { background: var(--orange-light); }
+  .pw-error { font-family: 'Lora', serif; font-size: 0.75rem; color: #b05040; font-style: italic; margin-top: 10px; display: none; }
+  .pw-error.visible { display: block; }
+  .pw-hint { font-family: 'Lora', serif; font-size: 0.72rem; color: var(--text-muted); margin-top: 16px; line-height: 1.6; font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-brand">
+      <div class="pw-brand-dot"></div>
+      <span class="pw-brand-name">Silent Rebuild</span>
+    </div>
+    <div class="pw-title">Exklusiv<br><span>für Käufer.</span></div>
+    <p class="pw-sub">Gib dein persönliches Zugangswort ein.<br>Du findest es auf der letzten Seite deines Guides.</p>
+    <input class="pw-input" id="pw-input" type="password" placeholder="Zugangswort eingeben"
+      onkeydown="if(event.key==='Enter') checkPW()" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPW()">Zugang freischalten →</button>
+    <p class="pw-error" id="pw-error">Falsches Zugangswort. Schau nochmal in deinen Guide.</p>
+    <p class="pw-hint">Noch kein Guide? <a href="https://silentrebuildformen.gumroad.com/l/godsq" target="_blank" style="color:var(--orange);text-decoration:none;">Hier kaufen →</a></p>
+  </div>
+</div>
+
+<div class="wrap" id="main-app" style="display:none">
+  <div style="margin-bottom:28px">
+    <div class="brand-row">
+      <div class="brand-dot"></div>
+      <span class="brand-name">Silent Rebuild</span>
+      <div class="brand-line"></div>
+    </div>
+    <h1>Der Guide für Männer<br><span>nach der Trennung.</span></h1>
+    <p class="subtitle">Neurologie · Psychologie · Konkrete Werkzeuge</p>
+  </div>
+
+  <div class="nc-box">
+    <div class="label-tag" style="margin-bottom:14px">No Contact Tracker</div>
+    <div class="nc-inner">
+      <div>
+        <div class="nc-label" id="nc-label">Starte heute. Jetzt.</div>
+        <button class="nc-reset-btn" onclick="resetNC()">↺ Zurücksetzen</button>
+      </div>
+      <div class="nc-controls">
+        <button class="nc-btn" onclick="changeNC(-1)">−</button>
+        <div class="nc-num-wrap">
+          <div class="nc-num" id="nc-num">0</div>
+          <div class="nc-unit" id="nc-unit">TAGE</div>
+        </div>
+        <button class="nc-btn" onclick="changeNC(1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+  <div id="view-quiz" class="active fade-up"></div>
+  <div id="view-content" class="fade-up"></div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+  <div style="margin-bottom:40px">
+    <div class="label-tag">Tages-Mantra</div>
+    <div class="mantra-box">
+      <p class="mantra-text" id="mantra-text"></p>
+    </div>
+    <button class="mantra-btn" onclick="nextMantra()">Nächstes →</button>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">
+      <div class="footer-dot"></div>
+      <span class="footer-name">Silent Rebuild</span>
+    </div>
+    <span class="footer-tagline">Kein Selbsthilfe-Bingo. Kein leerer Optimismus.</span>
+  </div>
+</div>
+
+<script>
+const SECTIONS = {
+  biochemie: {
+    label: "BIOCHEMIE", subtitle: "Was in dir passiert", icon: "01",
+    items: [
+      { title: "Dein Gehirn ist im Entzug", body: "Trennungsschmerz aktiviert dieselben Hirnareale wie Drogenentzug und körperlicher Schmerz. Das ist Neurologie – kein Drama. Dein Gehirn lernt gerade, ohne ein Dopamin-Signal auszukommen, das es jahrelang kannte." },
+      { title: "Oxytocin-Mangel ist real", body: "Körpernähe hat kontinuierlich Oxytocin ausgeschüttet. Dieser Spiegel bricht nach der Trennung ein. Dein Körper ist nicht gebrochen – er ist im Entzug. Das reguliert sich, aber es braucht Zeit." },
+      { title: "Männer trauern anders", body: "Männer zeigen weniger Emotion, aber leiden laut Studien länger. Der Schmerz geht nach innen. Das macht ihn gefährlicher – und die Erholung langwieriger, wenn man ihn ignoriert." },
+      { title: "Durchschnittlich 11 Wochen", body: "Der akute Schmerz dauert im Schnitt 11 Wochen. Danach flacht er messbar ab – neurologisch, hormonell, emotional. Du musst ihn nicht bekämpfen. Du musst ihn durchleben." },
+      { title: "No Contact verändert dein Gehirn", body: "Jeder Kontakt mit ihr setzt den neurologischen Heilungsprozess zurück – wie ein Alkoholiker, der einen Schluck nimmt. Kein Kontakt ist keine Bestrafung. Es ist Neurologie." },
+    ]
+  },
+  phasen: {
+    label: "PHASEN", subtitle: "Die 6 Phasen nach Kübler-Ross", icon: "03",
+    items: [
+      { title: "Phase 1 – Verleugnung", body: "Du kannst es noch nicht glauben. Vielleicht ist es nicht endgültig. Das Gehirn schützt dich vor einem Schmerz, den es noch nicht verarbeiten kann – das ist kein Versagen, es ist ein Mechanismus." },
+      { title: "Phase 2 – Schmerz & Schuld", body: "Der Schock lässt nach und der Schmerz trifft dich. Vielleicht Selbstvorwürfe, vielleicht Scham. Das ist keine Wahrheit – das ist dein Gehirn im Stressmodus, das nach Kontrolle sucht." },
+      { title: "Phase 3 – Wut", body: "Die Wut kommt. Auf sie, auf die Situation, vielleicht auf dich selbst. Das ist gesund – Wut ist Energie, und Energie ist besser als Taubheit. Wichtig ist, wohin du sie lenkst." },
+      { title: "Phase 4 – Verhandlung", body: "Was-wäre-wenn. Wenn ich nur... Das Gehirn versucht die Kontrolle zurückzugewinnen, die es verloren hat. Es simuliert Szenarien, die fast alle nicht real sind." },
+      { title: "Phase 5 – Depression & Einsamkeit", body: "Die Stille nach dem Sturm. Keine Wut mehr, kein Verhandeln – nur Leere. Das ist keine Schwäche. Das ist echter Trauerprozess – und er muss durchlebt werden." },
+      { title: "Phase 6 – Akzeptanz & Neubeginn", body: "Du akzeptierst, was war. Nicht weil es okay war – sondern weil du aufgehört hast dagegen zu kämpfen. Der Schmerz ist nicht weg, aber er definiert dich nicht mehr." },
+    ]
+  },
+  werkzeuge: {
+    label: "WERKZEUGE", subtitle: "10 Tools für den Einbruch", icon: "05",
+    items: [
+      { title: "1 – Kein Kontakt, konsequent", body: "Blockiere sie auf allen Kanälen. Nicht aus Wut – aus Eigenverantwortung. Kein Kontakt ist das mächtigste Werkzeug, das du hast. Alles andere ist optional." },
+      { title: "2 – Morgenroutine aufbauen", body: "Steh zur festen Zeit auf. Kalt duschen. Raus. Struktur ist das Gegenmittel zu Chaos. Dein Kopf braucht einen Anker, wenn alles wackelt." },
+      { title: "3 – Sport als Pflicht", body: "Körperliche Belastung baut Stresshormone ab und produziert Endorphine. Dreimal pro Woche, schweißtreibend. Nicht optional – biochemisch notwendig." },
+      { title: "4 – Schreib es raus", body: "Schreib ihr alles, was du sagen willst – in ein Dokument. Sag alles. Dann lösch es. Du verarbeitest es trotzdem. Das Gehirn unterscheidet nicht, ob du sendest oder nicht." },
+      { title: "5 – Freunde aktiv kontaktieren", body: "Nicht warten. Anrufen. Treffen. Isolation ist der größte Fehler in dieser Phase. Du musst nicht über sie reden – einfach unter Menschen sein reicht." },
+      { title: "6 – Schlaf priorisieren", body: "Schlafmangel verstärkt emotionale Instabilität messbar. Feste Zeiten, kein Handy im Bett. Schlaf ist keine Schwäche – er ist aktive Heilung." },
+      { title: "7 – Die 10-Minuten-Regel", body: "Willst du ihr schreiben? Warte 10 Minuten. Dann nochmal 10. Fast immer vergeht der Impuls. Du trainierst deinen präfrontalen Kortex – das ist echte Arbeit." },
+      { title: "8 – Ernährung bewusst steuern", body: "Alkohol, Zucker und Fast Food verstärken depressive Phasen biochemisch. Nicht für immer verzichten – aber jetzt bewusst reduzieren. Dein Körper kämpft schon genug." },
+      { title: "9 – Verlorene Bereiche zurückholen", body: "Was hast du in der Beziehung vernachlässigt? Hobbys, Freundschaften, Ziele? Jetzt hast du Zeit. Das ist kein Trost – das ist eine strategische Chance." },
+      { title: "10 – Professionelle Hilfe holen", body: "Therapie ist kein Zeichen von Schwäche. Jeder Spitzensportler hat einen Coach. Du verdienst Unterstützung. Nimm sie." },
+    ]
+  },
+  facts: {
+    label: "FACTS", subtitle: "Was Studien sagen", icon: "—",
+    items: [
+      { title: "Schmerz hat eine Funktion", body: "Emotionaler Schmerz nach Verlust ist evolutionär sinnvoll – er zwingt das Gehirn zur Verarbeitung. Ihn zu unterdrücken verlängert den Prozess nur." },
+      { title: "Männer erholen sich vollständiger", body: "Laut Studien erholen sich Männer langsamer als Frauen – aber vollständiger. Wer den Prozess nicht abkürzt, kommt stärker raus." },
+      { title: "Rumination verlängert den Schmerz", body: "Immer wieder über sie nachzudenken aktiviert dasselbe Schmerzsystem neu. Ablenkung ist keine Verdrängung. Sie ist Neurologie." },
+      { title: "Neue Routinen ersetzen alte Bindungen", body: "Das Gehirn ersetzt emotionale Ankerpunkte durch neue Gewohnheiten. Wer aktiv neue Strukturen aufbaut, heilt schneller – das ist klinisch belegt." },
+      { title: "Sport verändert die Chemie", body: "Regelmäßige körperliche Belastung senkt Cortisol, erhöht Serotonin und BDNF. Sport ist keine Metapher für Heilung. Er ist Heilung." },
+    ]
+  }
+};
+
+const MANTRAS = [
+  "Kein Kontakt ist Selbstrespekt.",
+  "Du wirst nicht gebrochen. Du wirst umgebaut.",
+  "Der Schmerz von heute ist die Klarheit von morgen.",
+  "Stark sein heißt nicht, keinen Schmerz zu fühlen.",
+  "Du hattest ein Leben vor ihr. Du wirst eines danach haben.",
+  "Heute reicht. Mach heute einen guten Tag.",
+  "Durch ist durch. Nicht zurück.",
+  "Wachstum braucht Druck.",
+  "Du kannst nicht heilen, was du ständig aufreißt.",
+  "Struktur ist das Gegenmittel zu Chaos.",
+  "Dein bestes Kapitel wurde noch nicht geschrieben.",
+  "Wer durch muss, muss durch. Keine Abkürzung.",
+  "Isolation ist der Feind. Ruf jemanden an.",
+  "Sport heute ist Therapie morgen.",
+  "Der Impuls vergeht. Warte 10 Minuten.",
+  "Du definierst dich nicht über das, was du verloren hast.",
+  "Rückfälle sind keine Niederlagen – sie sind Teil des Weges.",
+  "Jeder Tag ohne Kontakt ist ein Tag für dich.",
+  "Schmerz ist temporär. Aufgeben ist permanent.",
+  "Du brauchst keine Erklärung. Du brauchst Abstand.",
+];
+
+const QUIZ_PHASES = {
+  1: { name: "Verleugnung", sub: "Phase 1 von 6", description: "Du kannst es noch nicht glauben. Vielleicht ist es nicht endgültig. Das Gehirn schützt dich gerade vor einem Schmerz, den es noch nicht verarbeiten kann – das ist kein Versagen. Es ist ein Mechanismus.", motivation: "Diese Phase ist notwendig. Du musst jetzt nichts verstehen. Du musst nur funktionieren.", actions: ["Kein überstürzter Kontakt – gib dir selbst 48 Stunden Pause, bevor du irgendetwas sendest", "Sag jemandem, was passiert ist – einem Freund, einem Bruder. Du musst es nicht alleine tragen", "Iss. Schlaf. Dusch. Basics first – der Rest kommt später"] },
+  2: { name: "Schmerz & Schuld", sub: "Phase 2 von 6", description: "Der Schock lässt nach und der Schmerz trifft dich. Vielleicht Selbstvorwürfe, vielleicht Scham. Das ist keine Wahrheit – das ist dein Gehirn im Stressmodus, das nach Kontrolle sucht.", motivation: "Schmerz ist kein Zeichen von Schwäche. Er ist der Beweis, dass etwas real war. Lass ihn da sein – aber lass ihn nicht entscheiden.", actions: ["Schreib alles auf, was du fühlst – ohne Filter, ohne Ziel. Dann leg es weg", "Hör auf, dich zu fragen, was du falsch gemacht hast – konzentriere dich auf das, was du brauchst", "Sprich mit jemandem, dem du vertraust. Isolation verlängert diese Phase"] },
+  3: { name: "Wut", sub: "Phase 3 von 6", description: "Die Wut kommt. Auf sie, auf die Situation, vielleicht auf dich selbst. Das ist gesund – Wut ist Energie, und Energie ist besser als Taubheit. Wichtig ist, wohin du sie lenkst.", motivation: "Wut ist Treibstoff. Wer sie richtig kanalisiert, baut sich damit neu auf. Wer sie nach innen richtet, zerstört sich selbst.", actions: ["Sport – jetzt, heute, so hart wie möglich. Wut braucht einen körperlichen Ausgang", "Kein Kontakt zu ihr, wenn du wütend bist – du wirst es bereuen", "Schreib ihr den Brief, den du nie schickst. Sag alles. Dann lösch ihn"] },
+  4: { name: "Verhandlung", sub: "Phase 4 von 6", description: "Was-wäre-wenn. Wenn ich nur... Das Gehirn versucht die Kontrolle zurückzugewinnen, die es verloren hat. Es simuliert Szenarien, die fast alle nicht real sind.", motivation: "Dein Kopf lügt dich gerade an. Nicht bösartig – er will nur den Schmerz beenden. Aber die Antwort liegt nicht bei ihr.", actions: ["10-Minuten-Regel: Willst du ihr schreiben? Warte. Dann nochmal. Fast immer vergeht der Impuls", "Schreib dir auf, was tatsächlich nicht funktioniert hat – rational, ehrlich", "Ablenkung ist jetzt erlaubt und sinnvoll – Pläne machen, Freunde treffen, rausgehen"] },
+  5: { name: "Depression & Einsamkeit", sub: "Phase 5 von 6", description: "Die Stille nach dem Sturm. Keine Wut mehr, kein Verhandeln – nur Leere. Das ist keine Schwäche. Das ist echter Trauerprozess – und er muss durchlebt werden.", motivation: "Diese Phase fühlt sich endlos an – aber sie ist es nicht. Wer hier durchhält, ohne sich zu betäuben, kommt gestärkt raus.", actions: ["Struktur ist jetzt dein bester Freund – feste Zeiten, feste Routinen, auch wenn es sich falsch anfühlt", "Kein Alkohol, kein Rückzug in Bildschirme – das verlängert diese Phase nachweislich", "Erwäge professionelle Unterstützung – Therapie ist keine Niederlage, sie ist Strategie"] },
+  6: { name: "Akzeptanz & Neubeginn", sub: "Phase 6 von 6", description: "Du akzeptierst, was war. Nicht weil es okay war – sondern weil du aufgehört hast dagegen zu kämpfen. Der Schmerz ist nicht weg, aber er definiert dich nicht mehr.", motivation: "Das hier ist nicht das Ende einer Geschichte. Es ist der Anfang einer besseren.", actions: ["Definiere, was du in den nächsten 6 Monaten aufbauen willst – konkret, schriftlich", "Nimm eine Verbindung wieder auf, die du vernachlässigt hast – Freund, Hobby, Ziel", "Sei geduldig mit dir selbst – Rückfälle in frühere Phasen sind normal und kein Versagen"] },
+};
+
+const QUIZ_QUESTIONS = [
+  { text: "Wie fühlst du dich, wenn du an die Trennung denkst?", options: [ { label: "Ich glaube noch nicht wirklich, dass es vorbei ist", phase: 1 }, { label: "Ich fühle tiefen Schmerz und frage mich, was ich falsch gemacht habe", phase: 2 }, { label: "Ich bin wütend – auf sie, auf die Situation", phase: 3 }, { label: "Ich denke ständig daran, wie ich es hätte retten können", phase: 4 }, { label: "Ich fühle Leere und wenig Antrieb", phase: 5 }, { label: "Ich akzeptiere es langsam und denke wieder an die Zukunft", phase: 6 } ] },
+  { text: "Was beschäftigt dich am meisten?", options: [ { label: "Die Hoffnung, dass sie vielleicht zurückkommt", phase: 1 }, { label: "Selbstvorwürfe und Schuldgefühle", phase: 2 }, { label: "Ungerechtigkeit – was sie getan hat, was nicht fair war", phase: 3 }, { label: "Was ich hätte anders machen können", phase: 4 }, { label: "Die Leere und wie wenig Sinn gerade alles macht", phase: 5 }, { label: "Was ich mit meiner neu gewonnenen Freiheit anfange", phase: 6 } ] },
+  { text: "Wie ist dein Verhältnis zu No Contact?", options: [ { label: "Ich habe noch Kontakt oder plane ihn – es fühlt sich falsch an, ihn zu brechen", phase: 1 }, { label: "Ich halte Abstand, aber es schmerzt sehr", phase: 2 }, { label: "Ich will keinen Kontakt – aus Prinzip und Wut", phase: 3 }, { label: "Ich überlege ständig, ob ich ihr schreiben soll", phase: 4 }, { label: "Mir ist es fast egal – ich habe keine Energie mehr dafür", phase: 5 }, { label: "No Contact fühlt sich richtig an und fällt mir leichter", phase: 6 } ] },
+  { text: "Wie sieht dein Alltag gerade aus?", options: [ { label: "Ich funktioniere irgendwie, aber nichts fühlt sich real an", phase: 1 }, { label: "Es ist schwer, ich weine öfter oder sitze einfach da", phase: 2 }, { label: "Ich bin aggressiv oder gereizt, auch gegenüber anderen", phase: 3 }, { label: "Ich bin abgelenkt und kann kaum bei einer Sache bleiben", phase: 4 }, { label: "Ich ziehe mich zurück, schlafe viel oder gar nicht, kaum Motivation", phase: 5 }, { label: "Ich baue langsam wieder Routinen auf und fühle mich stabiler", phase: 6 } ] },
+  { text: "Was ist dein ehrlichster Gedanke gerade?", options: [ { label: "Das kann nicht wirklich vorbei sein.", phase: 1 }, { label: "Ich hätte es verhindern können – es liegt an mir.", phase: 2 }, { label: "Sie hat kein Recht dazu, das war nicht fair.", phase: 3 }, { label: "Vielleicht, wenn ich XY tue, wird alles gut.", phase: 4 }, { label: "Was soll das alles – wozu überhaupt?", phase: 5 }, { label: "Es war so. Jetzt baue ich was Neues.", phase: 6 } ] },
+];
+
+const TABS = [
+  { key: "quiz", label: "PHASE-CHECK", icon: "?" },
+  { key: "biochemie", label: "BIOCHEMIE", icon: "01" },
+  { key: "phasen", label: "PHASEN", icon: "03" },
+  { key: "werkzeuge", label: "WERKZEUGE", icon: "05" },
+  { key: "facts", label: "FACTS", icon: "—" },
+];
+
+let activeTab = "quiz";
+let openCardIndex = null;
+let mantraIdx = parseInt(localStorage.getItem("sr_mantra") || "0");
+let ncDays = parseInt(localStorage.getItem("sr_nc_days") || "0");
+let quizStep = 0;
+let quizAnswers = [];
+let quizSelected = null;
+
+function ncLabel(n) {
+  if (n === 0) return "Starte heute. Jetzt.";
+  if (n === 1) return "Tag 1. Der schwerste.";
+  if (n < 4)  return "Erste Tage – halte durch.";
+  if (n < 8)  return "Eine Woche. Du machst das.";
+  if (n < 21) return "Stark. Der Körper gewöhnt sich.";
+  if (n < 60) return "Echter Fortschritt. Weiter.";
+  return "Das ist Selbstrespekt auf höchstem Niveau.";
+}
+function updateNC() {
+  localStorage.setItem("sr_nc_days", ncDays);
+  document.getElementById("nc-num").textContent = ncDays;
+  document.getElementById("nc-unit").textContent = ncDays === 1 ? "TAG" : "TAGE";
+  document.getElementById("nc-label").textContent = ncLabel(ncDays);
+}
+function changeNC(delta) { ncDays = Math.max(0, ncDays + delta); updateNC(); }
+function resetNC() { ncDays = 0; updateNC(); }
+
+function renderMantra() {
+  document.getElementById("mantra-text").textContent = MANTRAS[mantraIdx];
+}
+function nextMantra() {
+  mantraIdx = (mantraIdx + 1) % MANTRAS.length;
+  localStorage.setItem("sr_mantra", mantraIdx);
+  renderMantra();
+}
+
+function renderTabs() {
+  const el = document.getElementById("tabs");
+  el.innerHTML = TABS.map(t => `
+    <button class="tab-btn${activeTab === t.key ? " active" : ""}" onclick="switchTab('${t.key}')">
+      <span class="tab-icon">${t.icon}</span>${t.label}
+    </button>
+  `).join("");
+}
+function switchTab(key) {
+  activeTab = key;
+  openCardIndex = null;
+  renderTabs();
+  if (key === "quiz") {
+    document.getElementById("view-quiz").classList.add("active");
+    document.getElementById("view-content").classList.remove("active");
+    renderQuiz();
+  } else {
+    document.getElementById("view-content").classList.add("active");
+    document.getElementById("view-quiz").classList.remove("active");
+    renderContent(key);
+  }
+}
+
+function renderContent(key) {
+  const sec = SECTIONS[key];
+  const el = document.getElementById("view-content");
+  el.className = "fade-up active";
+  el.innerHTML = `
+    <div class="sec-header">
+      <div class="label-tag">Kapitel ${sec.icon}</div>
+      <div class="sec-title">${sec.label}</div>
+      <div class="sec-sub">${sec.subtitle}</div>
+    </div>
+    <div id="cards">
+      ${sec.items.map((item, i) => `
+        <div class="card${openCardIndex === i ? " open" : ""}" onclick="toggleCard(${i})">
+          <div class="card-title">
+            <span>${item.title}</span>
+            <span class="card-plus">+</span>
+          </div>
+          <div class="card-body">${item.body}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+function toggleCard(i) {
+  openCardIndex = openCardIndex === i ? null : i;
+  renderContent(activeTab);
+}
+
+function calcPhase(answers) {
+  const counts = {};
+  answers.forEach(p => { counts[p] = (counts[p] || 0) + 1; });
+  return parseInt(Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]);
+}
+function renderQuiz() {
+  const el = document.getElementById("view-quiz");
+  el.className = "fade-up active";
+  const totalQ = QUIZ_QUESTIONS.length;
+  if (quizStep === 0) {
+    el.innerHTML = `
+      <div class="quiz-intro-tag">Selbst-Check</div>
+      <div class="quiz-intro-title">In welcher Phase<br><span>bist du gerade?</span></div>
+      <p class="quiz-intro-body">Basierend auf dem Kübler-Ross-Modell mit 6 Phasen der Trauer. Fünf ehrliche Fragen – keine richtigen oder falschen Antworten. Am Ende weißt du, wo du stehst und was du jetzt tun kannst.</p>
+      <button class="next-btn" onclick="quizStart()">Quiz starten →</button>
+    `;
+  } else if (quizStep <= totalQ) {
+    const q = QUIZ_QUESTIONS[quizStep - 1];
+    el.innerHTML = `
+      <div class="progress-bar"><div class="progress-fill" style="width:${(quizStep/totalQ)*100}%"></div></div>
+      <div class="quiz-q-title">${q.text}</div>
+      <div class="quiz-options">
+        ${q.options.map(opt => `
+          <button class="option-btn${quizSelected === opt.phase ? " selected" : ""}" onclick="quizSelect(${opt.phase})">
+            <div class="option-dot"></div>
+            <span>${opt.label}</span>
+          </button>
+        `).join("")}
+      </div>
+      <div class="quiz-nav">
+        <button class="next-btn" ${quizSelected === null ? "disabled" : ""} onclick="quizNext()">
+          ${quizStep === totalQ ? "Auswertung →" : "Weiter →"}
+        </button>
+        <span class="step-count">${quizStep} / ${totalQ}</span>
+      </div>
+    `;
+  } else {
+    const phase = QUIZ_PHASES[calcPhase(quizAnswers)];
+    el.innerHTML = `
+      <div class="result-tag">Dein Ergebnis · ${phase.sub}</div>
+      <div class="result-name">${phase.name}</div>
+      <div class="result-bar"></div>
+      <p class="result-desc">${phase.description}</p>
+      <div class="motivation-box">
+        <div class="motivation-label">Denk daran</div>
+        <p class="motivation-text">${phase.motivation}</p>
+      </div>
+      <div class="actions-label">Was du jetzt tun kannst</div>
+      ${phase.actions.map((a, i) => `
+        <div class="action-item">
+          <div class="action-num">0${i+1}</div>
+          <div class="action-text">${a}</div>
+        </div>
+      `).join("")}
+      <button class="restart-btn" onclick="quizRestart()">↺ Nochmal</button>
+      <p class="result-note">Die Phasen verlaufen selten linear. Du kannst zwischen ihnen wechseln oder mehrere gleichzeitig erleben. Das ist normal.</p>
+    `;
+  }
+}
+function quizStart() { quizStep = 1; quizSelected = null; renderQuiz(); }
+function quizSelect(phase) { quizSelected = phase; renderQuiz(); }
+function quizNext() {
+  if (quizSelected === null) return;
+  quizAnswers.push(quizSelected);
+  quizSelected = null;
+  quizStep++;
+  renderQuiz();
+}
+function quizRestart() { quizStep = 0; quizAnswers = []; quizSelected = null; renderQuiz(); }
+
+// Password — SHA-256 hash check
+const PW_HASH = "9d30fe69aab1c2178e458ccb3ae765111120f3ebc7f075f3bd5a632b6864fb06";
+async function hashString(str) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+async function checkPW() {
+  const val = document.getElementById("pw-input").value.trim().toLowerCase();
+  const err = document.getElementById("pw-error");
+  const inp = document.getElementById("pw-input");
+  const hash = await hashString(val);
+  if (hash === PW_HASH) {
+    sessionStorage.setItem("sr_unlocked", "1");
+    document.getElementById("pw-gate").classList.add("hidden");
+    document.getElementById("main-app").style.display = "block";
+    inp.classList.remove("error");
+    err.classList.remove("visible");
+  } else {
+    err.classList.add("visible");
+    inp.classList.add("error");
+    inp.value = "";
+    inp.focus();
+  }
+}
+function initGate() {
+  if (sessionStorage.getItem("sr_unlocked") === "1") {
+    document.getElementById("pw-gate").classList.add("hidden");
+    document.getElementById("main-app").style.display = "block";
+  }
+}
+initGate();
+updateNC();
+renderMantra();
+renderTabs();
+renderQuiz();
+</script>
+</body>
+</html>

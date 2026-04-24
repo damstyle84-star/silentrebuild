@@ -340,6 +340,38 @@
     .btn-app { display:inline-block; background:var(--accent); color:var(--bg); padding:0.9rem 2.2rem; font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500; letter-spacing:0.1em; text-decoration:none; transition:opacity 0.2s; }
     .btn-app:hover { opacity:0.85; }
     @media(max-width:768px) { .app-grid { grid-template-columns:1fr; gap:2.5rem; } }
+
+    /* ── TESTIMONIALS ── */
+    .testimonial-section { border-top:1px solid var(--border); padding:4rem 0; overflow:hidden; background:var(--bg); }
+    .testimonial-track-wrap { overflow:hidden; position:relative; }
+    .testimonial-track-wrap::before, .testimonial-track-wrap::after { content:''; position:absolute; top:0; bottom:0; width:120px; z-index:2; }
+    .testimonial-track-wrap::before { left:0; background:linear-gradient(to right, var(--bg), transparent); }
+    .testimonial-track-wrap::after { right:0; background:linear-gradient(to left, var(--bg), transparent); }
+    .testimonial-track { display:flex; gap:1.5rem; width:max-content; animation:scrollLeft 22s linear infinite; }
+    .testimonial-track:hover { animation-play-state:paused; }
+    @keyframes scrollLeft { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+    .testimonial-card { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); padding:1.8rem 2rem; width:340px; flex-shrink:0; }
+    .testimonial-name { font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:0.8rem; }
+    .testimonial-text { font-size:0.9rem; color:var(--sand); line-height:1.75; font-style:italic; }
+    .testimonial-stars { color:var(--accent); font-size:0.85rem; margin-top:0.8rem; letter-spacing:0.1em; }
+    .testimonial-label { text-align:center; margin-bottom:2rem; font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
+
+
+    /* ── APP MOCKUP ── */
+    .app-mockup { position:relative; width:220px; margin:0 auto; }
+    .mockup-phone { background:#1a1714; border:2px solid var(--border); border-radius:24px; padding:16px 12px; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+    .mockup-notch { width:60px; height:6px; background:#2a2318; border-radius:3px; margin:0 auto 12px; }
+    .mockup-brand { font-size:0.5rem; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+    .mockup-num { font-family:'Cormorant Garamond',serif; font-size:3.5rem; font-weight:700; color:var(--accent); line-height:1; text-align:center; }
+    .mockup-unit { font-size:0.5rem; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; text-align:center; margin-bottom:12px; }
+    .mockup-label { font-size:0.55rem; color:var(--sand); font-style:italic; text-align:center; line-height:1.4; }
+    .mockup-bar { height:2px; background:var(--border); margin:10px 0; border-radius:1px; overflow:hidden; }
+    .mockup-bar-fill { height:100%; background:var(--accent); width:0%; animation:barGrow 3s ease-out 0.5s forwards; }
+    @keyframes barGrow { to { width:72%; } }
+    .mockup-tabs { display:flex; gap:4px; margin-top:10px; }
+    .mockup-tab { flex:1; height:20px; background:var(--border); border-radius:2px; }
+    .mockup-tab.active { background:var(--accent); opacity:0.6; }
+
   </style>
 </head>
 <body>
@@ -490,6 +522,23 @@
 
   
 
+
+  <!-- EARLY CTA -->
+  <div style="border-top:1px solid var(--border);padding:4rem 5%;text-align:center;background:var(--surface);">
+    <div style="max-width:700px;margin:0 auto;">
+      <div style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Bereit?</div>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:1rem;">Beende den Schmerz.<br>Fang heute an.</h2>
+      <p style="font-size:0.95rem;color:var(--muted);margin-bottom:2rem;">78 Seiten. Fundiert. Direkt. Ohne leere Floskeln.</p>
+      <div style="margin-bottom:0.8rem;">
+        <span style="font-size:1.4rem;text-decoration:line-through;color:var(--muted);opacity:0.5;margin-right:0.5rem;">€49</span>
+        <span style="font-size:0.75rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;">Aktionspreis · Nur für kurze Zeit</span>
+      </div>
+      <a href="https://www.checkout-ds24.com/product/687104" target="_blank" class="btn-main">Jetzt kaufen — €37 →</a>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;font-style:italic;">Nicht zufrieden? Schreib uns: <a href="mailto:info.silentrebuild@gmail.com" style="color:var(--accent);text-decoration:none;">info.silentrebuild@gmail.com</a></p>
+    </div>
+  </div>
+
+
   <!-- GRATIS DOWNLOADS -->
   <div class="gratis-section reveal" id="gratis">
     <div class="gratis-inner">
@@ -497,7 +546,7 @@
       <h2>Hol dir zuerst<br>einen Einblick.</h2>
       <p class="section-body">Drei kostenlose Downloads — kein Kauf nötig, keine versteckten Kosten.</p>
       <div class="gratis-grid">
-        <a href="https://drive.google.com/uc?export=download&id=1APpCUIVvo2ANTw7bcdF37K1oEDcgmavQ" target="_blank" class="gratis-card">
+        <a href="https://drive.google.com/uc?export=download&id=1VmLaXWbdpegUP5ARcTA3NKfY2g9CATDM" target="_blank" class="gratis-card">
           <div class="gratis-tag">Sofort-Werkzeug</div>
           <div class="gratis-title">Die 5-Minuten<br>Notfallkarte</div>
           <div class="gratis-desc">Für den Moment, wenn es zu groß wird. Fünf konkrete Schritte, die sofort helfen.</div>
@@ -509,7 +558,7 @@
           <div class="gratis-desc">Was du tun solltest — und was nicht. Ein klarer Fahrplan für die härteste Phase.</div>
           <div class="gratis-badge">KOSTENLOS</div>
         </a>
-        <a href="https://drive.google.com/uc?export=download&id=1VmLaXWbdpegUP5ARcTA3NKfY2g9CATDM" target="_blank" class="gratis-card">
+        <a href="https://drive.google.com/uc?export=download&id=1APpCUIVvo2ANTw7bcdF37K1oEDcgmavQ" target="_blank" class="gratis-card">
           <div class="gratis-tag">Verstehen</div>
           <div class="gratis-title">Die 5 häufigsten<br>Fehler, die Männer machen</div>
           <div class="gratis-desc">Was sich richtig anfühlt, aber falsch ist — und wie du es besser machst.</div>
@@ -557,10 +606,82 @@
         </div>
         <div class="app-cta-box">
           <div class="app-cta-label">Exklusiv im Kauf enthalten</div>
+          <div class="app-mockup" style="margin-bottom:1.5rem;">
+            <div class="mockup-phone">
+              <div class="mockup-notch"></div>
+              <div class="mockup-brand">Silent Rebuild · No Contact</div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:4px 0;">
+                <div style="width:24px;height:24px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--muted);border-radius:2px;">−</div>
+                <div class="mockup-num" id="mockupNum">0</div>
+                <div style="width:24px;height:24px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--muted);border-radius:2px;">+</div>
+              </div>
+              <div class="mockup-unit">Tage</div>
+              <div class="mockup-bar"><div class="mockup-bar-fill"></div></div>
+              <div class="mockup-label" id="mockupLabel">Starte heute. Jetzt.</div>
+              <div class="mockup-tabs">
+                <div class="mockup-tab active"></div>
+                <div class="mockup-tab"></div>
+                <div class="mockup-tab"></div>
+                <div class="mockup-tab"></div>
+              </div>
+            </div>
+          </div>
           <div class="app-cta-title">Dein digitaler<br>Begleiter.</div>
           <div class="app-cta-desc">Kein Download. Kein App Store. Direkt im Browser — auf dem Handy, am Laptop, überall. Zugangswort findest du in deinem Guide.</div>
           <a href="/app.html" class="btn-app">Zur Begleit-App →</a>
           <p class="app-cta-note">Nur für Käufer des Silent Rebuild Guides zugänglich.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonial-section reveal">
+    <p class="testimonial-label">Was Käufer sagen</p>
+    <div class="testimonial-track-wrap">
+      <div class="testimonial-track">
+        <!-- Original set -->
+        <div class="testimonial-card">
+          <div class="testimonial-name">Alexander S.</div>
+          <div class="testimonial-text">„Hat mir geholfen zu verstehen, woher mein Schmerz kommt und was ich tun kann, wenn ich ihr wieder schreiben will. Seitdem checke ich ihr Profil nicht mehr und warte auch nicht mehr auf eine Antwort."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-name">Kevin K.</div>
+          <div class="testimonial-text">„Ich fand es krass, dass meine eigenen Gedanken mich ferngesteuert haben. Mir hat die Struktur geholfen, die mir das Buch gegeben hat — und die App hilft mir jeden Tag ein Stück weiterzukommen."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-name">Jan M.</div>
+          <div class="testimonial-text">„Ich bin frisch Single und wir haben bis vor Kurzem noch zusammen gewohnt. Durch das Buch und das Zusatzmodul bin ich gefühlt aus dem Gröbsten raus."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-name">Gianluca M.</div>
+          <div class="testimonial-text">„Ich habe mich über ein Jahr verkrochen, mein Alltag hat sich nur noch um sie gedreht — obwohl sie bereits einen Neuen hatte. Durch das Buch konnte ich verstehen, dass ich mich selbst in diesem Kreislauf gehalten habe. Jetzt geht es Stück für Stück bergauf."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <!-- Duplicate set for seamless loop -->
+        <div class="testimonial-card">
+          <div class="testimonial-name">Alexander S.</div>
+          <div class="testimonial-text">„Hat mir geholfen zu verstehen, woher mein Schmerz kommt und was ich tun kann, wenn ich ihr wieder schreiben will. Seitdem checke ich ihr Profil nicht mehr und warte auch nicht mehr auf eine Antwort."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-name">Kevin K.</div>
+          <div class="testimonial-text">„Ich fand es krass, dass meine eigenen Gedanken mich ferngesteuert haben. Mir hat die Struktur geholfen, die mir das Buch gegeben hat — und die App hilft mir jeden Tag ein Stück weiterzukommen."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-name">Jan M.</div>
+          <div class="testimonial-text">„Ich bin frisch Single und wir haben bis vor Kurzem noch zusammen gewohnt. Durch das Buch und das Zusatzmodul bin ich gefühlt aus dem Gröbsten raus."</div>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-name">Gianluca M.</div>
+          <div class="testimonial-text">„Ich habe mich über ein Jahr verkrochen, mein Alltag hat sich nur noch um sie gedreht — obwohl sie bereits einen Neuen hatte. Durch das Buch konnte ich verstehen, dass ich mich selbst in diesem Kreislauf gehalten habe. Jetzt geht es Stück für Stück bergauf."</div>
+          <div class="testimonial-stars">★★★★★</div>
         </div>
       </div>
     </div>
@@ -574,7 +695,7 @@
 
     <!-- Trust badges ÜBER dem Button -->
     <div class="trust-row" style="margin:2rem 0 1.5rem;">
-      <div class="trust-item"><span class="trust-dot"></span>68 Seiten</div>
+      <div class="trust-item"><span class="trust-dot"></span>78 Seiten</div>
       <div class="trust-item"><span class="trust-dot"></span>Neurologie & Psychologie</div>
       <div class="trust-item"><span class="trust-dot"></span>30-Tage-Aktionsplan</div>
       <div class="trust-item"><span class="trust-dot"></span>Für Männer gemacht</div>
@@ -583,16 +704,17 @@
 
     <!-- Preiskasten -->
     <div class="price-box">
+      <div style="font-size:1.6rem;color:var(--muted);letter-spacing:0.1em;text-decoration:line-through;opacity:0.5;margin-bottom:0.3rem;">€49</div>
       <div class="price">€37</div>
-      <div style="font-size:1rem;color:#aaa;letter-spacing:0.1em;margin-top:0.2rem;opacity:0.55;">($43)</div>
+      <div class="price-note" style="color:var(--accent);">AKTIONSPREIS · NUR FÜR KURZE ZEIT</div>
       <div class="price-note">EINMALIG · SOFORT-DOWNLOAD · PDF</div>
     </div>
 
     <!-- Kaufbutton -->
-    <a href="https://silentrebuildformen.gumroad.com/l/godsq" target="_blank" class="btn-main">Jetzt kaufen — PDF herunterladen</a>
+    <a href="https://www.checkout-ds24.com/product/687104" target="_blank" class="btn-main">Jetzt kaufen — PDF herunterladen</a>
 
     <!-- Sicherheitshinweis direkt darunter -->
-    <span class="btn-hint" style="display:block;margin-top:0.8rem;">Sicherer Kauf · Sofortiger Zugang · Kein Abo · Einmalig €37 ($43)</span>
+    <span class="btn-hint" style="display:block;margin-top:0.8rem;">Sicherer Kauf · Sofortiger Zugang · Kein Abo · Einmalig €37</span>
 
     <!-- Mehr entdecken — weiter unten, nach allem -->
     <div style="margin-top:2rem;display:flex;flex-direction:column;align-items:center;gap:0.4rem;opacity:0.5;">
@@ -611,39 +733,39 @@
         <p style="font-size:0.88rem;color:var(--muted);margin-top:0.8rem;font-style:italic;">Jedes Modul ist ein eigenständiges PDF — konkret, direkt anwendbar, ohne Umwege.</p>
       </div>
       <div class="module-grid reveal">
-        <a href="https://silentrebuildformen.gumroad.com/l/sonderfall01" target="_blank" class="module-card">
+        <a href="https://www.checkout-ds24.com/product/687119" target="_blank" class="module-card">
           <div class="module-tag">Sonderfall 01</div>
           <div class="module-title">Wir wohnen noch zusammen</div>
           <div class="module-desc">Wie du No Contact hältst, wenn du sie täglich siehst. Grenzen setzen ohne Drama.</div>
-          <div class="module-price">€15 — Jetzt kaufen →</div>
+          <div class="module-price"><span style="font-size:0.9rem;text-decoration:line-through;opacity:0.5;color:var(--muted);">€20</span> <span style="color:var(--accent);">€15</span> — Jetzt kaufen →</div>
           <div class="module-add">Zusatzmodul zum Hauptbuch</div>
         </a>
-        <a href="https://silentrebuildformen.gumroad.com/l/sonderfall02" target="_blank" class="module-card">
+        <a href="https://www.checkout-ds24.com/product/687127" target="_blank" class="module-card">
           <div class="module-tag">Sonderfall 02</div>
           <div class="module-title">Wir arbeiten zusammen</div>
           <div class="module-desc">Professionell bleiben, wenn der Schmerz real ist. Strategien für den Arbeitsalltag.</div>
-          <div class="module-price">€15 — Jetzt kaufen →</div>
+          <div class="module-price"><span style="font-size:0.9rem;text-decoration:line-through;opacity:0.5;color:var(--muted);">€20</span> <span style="color:var(--accent);">€15</span> — Jetzt kaufen →</div>
           <div class="module-add">Zusatzmodul zum Hauptbuch</div>
         </a>
-        <a href="https://silentrebuildformen.gumroad.com/l/sonderfall03" target="_blank" class="module-card">
+        <a href="https://www.checkout-ds24.com/product/687135" target="_blank" class="module-card">
           <div class="module-tag">Sonderfall 03</div>
           <div class="module-title">Gemeinsame Kinder</div>
           <div class="module-desc">Verantwortung tragen, ohne sich selbst zu verlieren. Für Väter in der Trennungsphase.</div>
-          <div class="module-price">€15 — Jetzt kaufen →</div>
+          <div class="module-price"><span style="font-size:0.9rem;text-decoration:line-through;opacity:0.5;color:var(--muted);">€20</span> <span style="color:var(--accent);">€15</span> — Jetzt kaufen →</div>
           <div class="module-add">Zusatzmodul zum Hauptbuch</div>
         </a>
-        <a href="https://silentrebuildformen.gumroad.com/l/sonderfall04" target="_blank" class="module-card">
+        <a href="https://www.checkout-ds24.com/product/687139" target="_blank" class="module-card">
           <div class="module-tag">Sonderfall 04</div>
           <div class="module-title">Geteilter Freundeskreis</div>
           <div class="module-desc">Loyalitäten, Gerüchte, soziale Dynamiken. Wie du deinen Platz behältst, ohne Krieg zu machen.</div>
-          <div class="module-price">€15 — Jetzt kaufen →</div>
+          <div class="module-price"><span style="font-size:0.9rem;text-decoration:line-through;opacity:0.5;color:var(--muted);">€20</span> <span style="color:var(--accent);">€15</span> — Jetzt kaufen →</div>
           <div class="module-add">Zusatzmodul zum Hauptbuch</div>
         </a>
-        <a href="https://silentrebuildformen.gumroad.com/l/sonderfall05" target="_blank" class="module-card">
+        <a href="https://www.checkout-ds24.com/product/687142" target="_blank" class="module-card">
           <div class="module-tag">Sonderfall 05</div>
           <div class="module-title">Sie signalisiert wieder Interesse</div>
           <div class="module-desc">No Contact hat gewirkt — und jetzt meldet sie sich. Wie du die Situation aus einer Position der Stärke angehst, ohne alte Muster zu wiederholen.</div>
-          <div class="module-price">€15 — Jetzt kaufen →</div>
+          <div class="module-price"><span style="font-size:0.9rem;text-decoration:line-through;opacity:0.5;color:var(--muted);">€20</span> <span style="color:var(--accent);">€15</span> — Jetzt kaufen →</div>
           <div class="module-add">Zusatzmodul zum Hauptbuch</div>
         </a>
       </div>

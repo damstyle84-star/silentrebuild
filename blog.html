@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Logbuch — Silent Rebuild</title>
+<meta name="description" content="Persönliche Geschichten und ehrliche Antworten auf die Fragen, die Männer nach einer Trennung nachts googeln. Aus dem Logbuch von Damian." />
+<link rel="canonical" href="https://silentrebuild.de/blog.html" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#111009; --surface:#1c1916; --surface2:#242018;
+  --text:#e2ddd8; --muted:#9a9088; --accent:#c17f4a;
+  --light:#f0ece8; --border:#2e2a26; --sand:#c8c0b4;
+}
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:300; overflow-x:hidden; line-height:1.7; }
+
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.2rem 5%;
+  background:rgba(17,16,9,0.94); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.nav-logo { font-family:'Cormorant Garamond',serif; font-weight:700; font-size:1.25rem; letter-spacing:0.15em; color:var(--light); text-decoration:none; }
+.dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-left:2px; vertical-align:super; }
+.nav-links { display:flex; gap:0; align-items:center; list-style:none; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:0.82rem; letter-spacing:0.06em; padding:0.5rem 1rem; transition:color 0.2s; }
+.nav-links a:hover { color:var(--light); }
+.nav-links a.active { color:var(--accent); }
+.nav-cta { margin-left:0.8rem; border:1px solid var(--accent) !important; color:var(--accent) !important; padding:0.45rem 1.2rem !important; border-radius:2px; }
+.nav-cta:hover { background:var(--accent) !important; color:var(--bg) !important; }
+
+@media (max-width:760px) {
+  .nav-links li:not(:last-child) { display:none; }
+}
+
+.header {
+  padding:9rem 5% 4rem;
+  max-width:1100px; margin:0 auto;
+  text-align:center;
+}
+.header-label {
+  font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1.4rem;
+}
+.header-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,5vw,3.8rem);
+  font-weight:700; color:var(--light);
+  line-height:1.15; margin-bottom:1.5rem;
+}
+.header-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; color:var(--sand); line-height:1.6;
+  max-width:640px; margin:0 auto;
+}
+.header-divider {
+  width:60px; height:1px; background:var(--accent);
+  margin:3rem auto 0;
+}
+
+.articles {
+  max-width:1100px; margin:0 auto;
+  padding:2rem 5% 6rem;
+  display:grid; grid-template-columns:repeat(2,1fr); gap:3rem 2.5rem;
+}
+.article-card {
+  text-decoration:none; cursor:pointer;
+  border-top:1px solid var(--border);
+  padding-top:2rem;
+  transition:border-color 0.2s, transform 0.2s;
+  display:block;
+}
+.article-card:hover {
+  border-top-color:var(--accent);
+  transform:translateY(-3px);
+}
+.article-card-meta {
+  font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); opacity:0.75; margin-bottom:1rem;
+}
+.article-card-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem; font-weight:600;
+  color:var(--light); line-height:1.3;
+  margin-bottom:0.8rem;
+  transition:color 0.2s;
+}
+.article-card:hover .article-card-title { color:var(--accent); }
+.article-card-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.05rem; color:var(--sand);
+  line-height:1.5; margin-bottom:1rem;
+}
+.article-card-excerpt {
+  font-size:0.92rem; color:var(--muted);
+  line-height:1.6;
+}
+
+@media (max-width:760px) {
+  .articles { grid-template-columns:1fr; gap:2.5rem; }
+  .header { padding:7rem 5% 2.5rem; }
+  .article-card-title { font-size:1.4rem; }
+}
+
+.cta-bottom {
+  max-width:760px; margin:0 auto;
+  padding:5rem 5% 5rem;
+  text-align:center;
+  border-top:1px solid var(--border);
+}
+.cta-bottom-label {
+  font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1rem;
+}
+.cta-bottom-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:700; color:var(--light);
+  line-height:1.25; margin-bottom:1rem;
+}
+.cta-bottom-text {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.05rem; color:var(--sand);
+  line-height:1.6; margin-bottom:2rem;
+  max-width:560px; margin-left:auto; margin-right:auto;
+}
+.cta-bottom-button {
+  display:inline-block;
+  background:var(--accent); color:var(--bg);
+  padding:0.9rem 2rem;
+  font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase;
+  text-decoration:none; font-weight:500;
+  transition:background 0.2s, transform 0.2s;
+}
+.cta-bottom-button:hover { background:#d49159; transform:translateX(2px); }
+
+footer {
+  padding:3rem 5% 2rem;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.78rem; color:var(--muted);
+}
+footer a { color:var(--muted); text-decoration:none; margin:0 0.8rem; }
+footer a:hover { color:var(--accent); }
+.footer-brand {
+  font-family:'Cormorant Garamond',serif; font-weight:700;
+  letter-spacing:0.15em; color:var(--light);
+  font-size:1rem; margin-bottom:1.2rem;
+  display:inline-block;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">SILENT REBUILD<span class="dot"></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#schmerz">Buch</a></li>
+    <li><a href="blog.html" class="active">Logbuch</a></li>
+    <li><a href="index.html#gratis">Gratis</a></li>
+    <li><a href="https://www.checkout-ds24.com/product/687104" target="_blank" class="nav-cta">Jetzt kaufen</a></li>
+  </ul>
+</nav>
+
+<header class="header">
+  <div class="header-label">Aus dem Logbuch</div>
+  <h1 class="header-title">Wenn du eine<br>Antwort suchst.</h1>
+  <p class="header-sub">Persönliche Geschichten und ehrliche Antworten auf die Fragen, die Männer nach einer Trennung nachts googeln.</p>
+  <div class="header-divider"></div>
+</header>
+
+<main class="articles">
+
+  <a href="blog/wie-lange-dauert-liebeskummer.html" class="article-card">
+    <div class="article-card-meta">Kolumne · 5 min</div>
+    <div class="article-card-title">Wie lange dauert Liebeskummer</div>
+    <div class="article-card-sub">Und was das Brot meiner Mutter damit zu tun hat</div>
+    <div class="article-card-excerpt">Meine Mutter hat immer Sauerteigbrot gebacken. Das echte. Das, das zwei Tage braucht …</div>
+  </a>
+
+  <a href="blog/trennung-verarbeiten-mann.html" class="article-card">
+    <div class="article-card-meta">Kolumne · 7 min</div>
+    <div class="article-card-title">Trennung verarbeiten als Mann</div>
+    <div class="article-card-sub">Was sie nicht gesagt haben, als sie mich auf die Kreuzfahrt geschickt haben</div>
+    <div class="article-card-excerpt">Drei Wochen nach dem Ende stand ich auf dem Sonnendeck der AIDA. 6.000 Mitpassagiere …</div>
+  </a>
+
+  <a href="blog/ex-zurueckgewinnen.html" class="article-card">
+    <div class="article-card-meta">Kolumne · 6 min</div>
+    <div class="article-card-title">Ex zurückgewinnen</div>
+    <div class="article-card-sub">Oder warum manche Motoren aus gutem Grund streiken</div>
+    <div class="article-card-excerpt">Mitten auf der Autobahn, bei 130, ohne Vorwarnung, fängt der Motor an zu stottern …</div>
+  </a>
+
+  <a href="blog/ich-vermisse-meine-ex-rauchen.html" class="article-card">
+    <div class="article-card-meta">Kolumne · 6 min</div>
+    <div class="article-card-title">Ich vermisse meine Ex und will aufhören zu rauchen</div>
+    <div class="article-card-sub">Ein Leid kommt selten allein</div>
+    <div class="article-card-excerpt">Montag: Schluss. Dienstag: Rauchstopp-Entschluss. Mittwoch: die Erkenntnis …</div>
+  </a>
+
+  <a href="blog/wie-komme-ich-ueber-meine-ex-hinweg.html" class="article-card">
+    <div class="article-card-meta">Kolumne · 6 min</div>
+    <div class="article-card-title">Wie komme ich über meine Ex hinweg</div>
+    <div class="article-card-sub">Und was hat das mit dem Hund des Nachbarn zu tun</div>
+    <div class="article-card-excerpt">Es war ein ganz normaler Dienstagmorgen. Kaffee, Balkon, keine großen Pläne …</div>
+  </a>
+
+  <a href="blog/liebeskummer-mann-stromausfall.html" class="article-card">
+    <div class="article-card-meta">Kolumne · 5 min</div>
+    <div class="article-card-title">Liebeskummer als Mann</div>
+    <div class="article-card-sub">Was mein Stromausfall mir dazu verrät</div>
+    <div class="article-card-excerpt">Es war ein ganz normaler Dienstagabend. Und dann: nichts. Stromausfall …</div>
+  </a>
+
+</main>
+
+<section class="cta-bottom">
+  <div class="cta-bottom-label">Wenn du tiefer gehen willst</div>
+  <h2 class="cta-bottom-title">Silent Rebuild — der Guide für Männer<br>nach der Trennung.</h2>
+  <p class="cta-bottom-text">Ein strukturierter Begleiter durch diese Phase. Vom ersten Schock bis zu dem Punkt, an dem du wieder fest stehst.</p>
+  <a href="https://www.checkout-ds24.com/product/687104" target="_blank" class="cta-bottom-button">Mehr erfahren →</a>
+</section>
+
+<footer>
+  <div class="footer-brand">SILENT REBUILD<span class="dot"></span></div>
+  <div>
+    <a href="index.html#impressum">Impressum</a>
+    <a href="index.html#datenschutz">Datenschutz</a>
+    <a href="index.html#agb">AGB</a>
+    <a href="mailto:info.silentrebuild@gmail.com">Kontakt</a>
+  </div>
+  <div style="margin-top:1rem;font-size:0.7rem;">© Silent Rebuild · Damian</div>
+</footer>
+
+</body>
+</html>

@@ -150,6 +150,110 @@
 
     /* FOR WHO */
     .for-who { border-top:1px solid var(--border); max-width:none !important; padding-left:5%; padding-right:5%; }
+
+    /* ── BLOG / LOGBUCH BLOCK ── */
+    .logbook-section {
+      border-top:1px solid var(--border);
+      padding:7rem 5% 6rem;
+      background:var(--bg);
+    }
+    .logbook-wrap {
+      max-width:1100px; margin:0 auto;
+      position:relative;
+    }
+    .logbook-inner {
+      background:var(--surface);
+      border:1px solid var(--border);
+      padding:4rem 4rem 3.5rem;
+      margin-left:80px;
+      position:relative;
+    }
+    .logbook-arrow {
+      position:absolute; left:-80px; top:4rem;
+      display:flex; align-items:center;
+    }
+    .logbook-arrow-line {
+      width:80px; height:1px; background:var(--accent);
+    }
+    .logbook-arrow-tip {
+      width:0; height:0;
+      border-top:6px solid transparent;
+      border-bottom:6px solid transparent;
+      border-left:9px solid var(--accent);
+      margin-left:-1px;
+    }
+    .logbook-label {
+      font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+      color:var(--accent); font-weight:500; margin-bottom:1.2rem;
+    }
+    .logbook-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem,3.5vw,2.8rem);
+      font-weight:700; color:var(--light);
+      line-height:1.15; margin-bottom:1rem;
+    }
+    .logbook-sub {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:1.15rem; color:var(--sand);
+      line-height:1.6; margin-bottom:3rem; max-width:640px;
+    }
+    .logbook-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:2rem;
+    }
+    .logbook-card {
+      border-top:1px solid var(--border);
+      padding-top:1.8rem;
+      text-decoration:none;
+      cursor:pointer;
+      transition:border-color 0.2s, transform 0.2s;
+      display:block;
+    }
+    .logbook-card:hover {
+      border-top-color:var(--accent);
+      transform:translateY(-2px);
+    }
+    .logbook-card-meta {
+      font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase;
+      color:var(--accent); opacity:0.75; margin-bottom:0.8rem;
+    }
+    .logbook-card-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.4rem; font-weight:600;
+      color:var(--light); line-height:1.3;
+      margin-bottom:0.8rem;
+      transition:color 0.2s;
+    }
+    .logbook-card:hover .logbook-card-title { color:var(--accent); }
+    .logbook-card-excerpt {
+      font-size:0.92rem; color:var(--muted);
+      line-height:1.6;
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+    }
+    .logbook-cta-row {
+      margin-top:3rem;
+      padding-top:2rem;
+      border-top:1px solid var(--border);
+    }
+    .logbook-cta {
+      display:inline-block;
+      font-size:0.78rem; letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--accent); text-decoration:none;
+      border-bottom:1px solid var(--accent);
+      padding-bottom:5px;
+      transition:opacity 0.2s, letter-spacing 0.2s;
+    }
+    .logbook-cta:hover { opacity:0.7; letter-spacing:0.22em; }
+
+    @media (max-width:760px) {
+      .logbook-section { padding:4rem 5% 3.5rem; }
+      .logbook-inner { margin-left:30px; padding:2.2rem 1.6rem 2rem; }
+      .logbook-arrow { left:-30px; top:2.2rem; }
+      .logbook-arrow-line { width:30px; }
+      .logbook-grid { grid-template-columns:1fr; gap:0; }
+      .logbook-card { padding-top:1.4rem; padding-bottom:0.4rem; }
+      .logbook-title { font-size:1.7rem; }
+      .logbook-sub { font-size:1rem; margin-bottom:2rem; }
+    }
     .fwg { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1px; background:var(--border); margin-top:4rem; border:1px solid var(--border); max-width:1100px; margin-left:auto; margin-right:auto; }
     .fwi { background:var(--surface); padding:2.5rem; transition:background 0.3s; }
     .fwi:hover { background:var(--surface2); }
@@ -507,16 +611,43 @@
   </div>
 
   <!-- FOR WHO -->
-  <section class="for-who">
-    <div class="reveal">
-      <div class="section-label">Silent Rebuild ist für dich wenn</div>
-      <h2>Du nicht stehen<br>bleiben willst.</h2>
-    </div>
-    <div class="fwg reveal">
-      <div class="fwi"><div class="fwi-num">01</div><p class="fwi-text">Du nach außen hin funktionierst, aber innen weißt, dass etwas nicht stimmt.</p></div>
-      <div class="fwi"><div class="fwi-num">02</div><p class="fwi-text">Du verstehen willst, warum Trennungsschmerz sich körperlich anfühlt — und was dagegen hilft.</p></div>
-      <div class="fwi"><div class="fwi-num">03</div><p class="fwi-text">Du aufgehört hast zu warten und bereit bist, aktiv etwas zu tun.</p></div>
-      <div class="fwi"><div class="fwi-num">04</div><p class="fwi-text">Du als bessere Version von dir selbst aus dieser Sache rausgehen willst.</p></div>
+  <!-- LOGBUCH / BLOG -->
+  <section class="logbook-section reveal" id="logbuch">
+    <div class="logbook-wrap">
+      <div class="logbook-inner">
+        <div class="logbook-arrow" aria-hidden="true">
+          <div class="logbook-arrow-line"></div>
+          <div class="logbook-arrow-tip"></div>
+        </div>
+
+        <div class="logbook-label">Aus dem Logbuch</div>
+        <h2 class="logbook-title">Wenn du eine<br>Antwort suchst.</h2>
+        <p class="logbook-sub">Persönliche Geschichten und ehrliche Antworten auf die Fragen, die Männer nachts googeln.</p>
+
+        <div class="logbook-grid">
+          <a href="blog/wie-lange-dauert-liebeskummer.html" class="logbook-card">
+            <div class="logbook-card-meta">Kolumne · 5 min</div>
+            <div class="logbook-card-title">Wie lange dauert Liebeskummer</div>
+            <div class="logbook-card-excerpt">Meine Mutter hat immer Sauerteigbrot gebacken. Das echte. Das, das zwei Tage braucht …</div>
+          </a>
+
+          <a href="blog/trennung-verarbeiten-mann.html" class="logbook-card">
+            <div class="logbook-card-meta">Kolumne · 7 min</div>
+            <div class="logbook-card-title">Trennung verarbeiten als Mann</div>
+            <div class="logbook-card-excerpt">Drei Wochen nach dem Ende stand ich auf dem Sonnendeck der AIDA. 6.000 Mitpassagiere …</div>
+          </a>
+
+          <a href="blog/ex-zurueckgewinnen.html" class="logbook-card">
+            <div class="logbook-card-meta">Kolumne · 6 min</div>
+            <div class="logbook-card-title">Ex zurückgewinnen</div>
+            <div class="logbook-card-excerpt">Mitten auf der Autobahn, bei 130, ohne Vorwarnung, fängt der Motor an zu stottern …</div>
+          </a>
+        </div>
+
+        <div class="logbook-cta-row">
+          <a href="blog/" class="logbook-cta">Alle Beiträge ansehen →</a>
+        </div>
+      </div>
     </div>
   </section>
 

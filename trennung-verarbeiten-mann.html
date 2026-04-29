@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Trennung verarbeiten als Mann — Silent Rebuild</title>
+<meta name="description" content="Wie man als Mann eine Trennung wirklich durchfährt, statt sie zu überspringen. Eine ehrliche Geschichte vom Sonnendeck." />
+<link rel="canonical" href="https://silentrebuild.de/blog/trennung-verarbeiten-mann.html" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#111009; --surface:#1c1916; --surface2:#242018;
+  --text:#e2ddd8; --muted:#9a9088; --accent:#c17f4a;
+  --light:#f0ece8; --border:#2e2a26; --sand:#c8c0b4;
+}
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:300; overflow-x:hidden; line-height:1.7; }
+
+/* NAV (gleicher Stil wie Hauptseite) */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.2rem 5%;
+  background:rgba(17,16,9,0.94); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.nav-logo { font-family:'Cormorant Garamond',serif; font-weight:700; font-size:1.25rem; letter-spacing:0.15em; color:var(--light); text-decoration:none; }
+.dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-left:2px; vertical-align:super; }
+.nav-links { display:flex; gap:0; align-items:center; list-style:none; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:0.82rem; letter-spacing:0.06em; padding:0.5rem 1rem; transition:color 0.2s; }
+.nav-links a:hover { color:var(--light); }
+.nav-cta { margin-left:0.8rem; border:1px solid var(--accent) !important; color:var(--accent) !important; padding:0.45rem 1.2rem !important; border-radius:2px; }
+.nav-cta:hover { background:var(--accent) !important; color:var(--bg) !important; }
+
+@media (max-width:760px) {
+  .nav-links li:not(:last-child) { display:none; }
+}
+
+/* HEADER */
+.article-header {
+  padding:9rem 5% 3rem;
+  max-width:760px; margin:0 auto;
+  text-align:left;
+}
+.article-back {
+  display:inline-block; margin-bottom:2.5rem;
+  font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none;
+  transition:color 0.2s;
+}
+.article-back:hover { color:var(--accent); }
+.article-meta {
+  font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1.4rem;
+}
+.article-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4.5vw,3.4rem);
+  font-weight:700; color:var(--light);
+  line-height:1.15; margin-bottom:1.2rem;
+}
+.article-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.1rem; color:var(--sand); line-height:1.6;
+  max-width:620px;
+}
+.article-divider {
+  width:60px; height:1px; background:var(--accent);
+  margin:2.5rem 0;
+}
+
+/* BODY */
+.article-body {
+  max-width:680px; margin:0 auto;
+  padding:0 5% 4rem;
+  font-size:1.08rem;
+  color:var(--sand);
+}
+.article-body p { margin-bottom:1.5rem; line-height:1.85; }
+.article-body p strong { color:var(--light); font-weight:500; }
+.article-body p em { color:var(--light); font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.12rem; }
+
+.article-body h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3vw,2rem);
+  font-weight:600; color:var(--light);
+  margin:3.5rem 0 1.4rem;
+  line-height:1.25;
+}
+.article-body h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem; font-weight:600;
+  color:var(--light); margin:2.5rem 0 1rem;
+}
+.article-body hr {
+  border:none; height:1px;
+  background:var(--border);
+  max-width:60px; margin:3rem auto;
+}
+.article-body blockquote {
+  border-left:2px solid var(--accent);
+  padding:0.4rem 0 0.4rem 1.5rem;
+  margin:2rem 0;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  color:var(--light); font-size:1.15rem;
+}
+
+/* SIGNATUR */
+.article-signature {
+  max-width:680px; margin:3rem auto 0;
+  padding:0 5%;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  color:var(--accent);
+  font-size:1.15rem;
+}
+
+/* BUCH-CTA AM ARTIKELENDE */
+.book-cta {
+  max-width:760px; margin:5rem auto 0;
+  padding:3.5rem 3rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  position:relative;
+}
+.book-cta-label {
+  font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1rem;
+}
+.book-cta-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem; font-weight:700;
+  color:var(--light); line-height:1.3;
+  margin-bottom:1rem;
+}
+.book-cta-text {
+  font-size:0.95rem; color:var(--sand);
+  line-height:1.7; margin-bottom:1.8rem;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+}
+.book-cta-button {
+  display:inline-block;
+  background:var(--accent); color:var(--bg);
+  padding:0.9rem 1.8rem;
+  font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase;
+  text-decoration:none; font-weight:500;
+  transition:background 0.2s, transform 0.2s;
+}
+.book-cta-button:hover { background:#d49159; transform:translateX(2px); }
+
+/* VERWANDTE ARTIKEL */
+.related {
+  max-width:1100px; margin:5rem auto 0;
+  padding:5rem 5% 0;
+  border-top:1px solid var(--border);
+}
+.related-label {
+  font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1rem; text-align:center;
+}
+.related-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem; font-weight:700; color:var(--light);
+  text-align:center; margin-bottom:3rem; line-height:1.2;
+}
+.related-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:2rem;
+  max-width:900px; margin:0 auto;
+}
+.related-card {
+  border-top:1px solid var(--border);
+  padding-top:1.5rem;
+  text-decoration:none; cursor:pointer;
+  transition:border-color 0.2s, transform 0.2s;
+  display:block;
+}
+.related-card:hover {
+  border-top-color:var(--accent);
+  transform:translateY(-2px);
+}
+.related-card-meta {
+  font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); opacity:0.75; margin-bottom:0.6rem;
+}
+.related-card-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem; font-weight:600;
+  color:var(--light); line-height:1.3; margin-bottom:0.6rem;
+  transition:color 0.2s;
+}
+.related-card:hover .related-card-title { color:var(--accent); }
+.related-card-excerpt {
+  font-size:0.85rem; color:var(--muted);
+  line-height:1.5;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+}
+
+@media (max-width:760px) {
+  .related-grid { grid-template-columns:1fr; }
+  .book-cta { padding:2.5rem 1.8rem; }
+}
+
+/* FOOTER */
+footer {
+  margin-top:6rem;
+  padding:3rem 5% 2rem;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.78rem; color:var(--muted);
+}
+footer a { color:var(--muted); text-decoration:none; margin:0 0.8rem; }
+footer a:hover { color:var(--accent); }
+.footer-brand {
+  font-family:'Cormorant Garamond',serif; font-weight:700;
+  letter-spacing:0.15em; color:var(--light);
+  font-size:1rem; margin-bottom:1.2rem;
+  display:inline-block;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SILENT REBUILD<span class="dot"></span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#schmerz">Buch</a></li>
+    <li><a href="../blog.html">Logbuch</a></li>
+    <li><a href="../index.html#gratis">Gratis</a></li>
+    <li><a href="https://www.checkout-ds24.com/product/687104" target="_blank" class="nav-cta">Jetzt kaufen</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <a href="../blog.html" class="article-back">← Zurück zum Logbuch</a>
+  <div class="article-meta">Kolumne · 7 min · Damian</div>
+  <h1 class="article-title">Trennung verarbeiten als Mann</h1>
+  <p class="article-sub">Was sie nicht gesagt haben, als sie mich auf die Kreuzfahrt geschickt haben</p>
+  <div class="article-divider"></div>
+</header>
+
+<article class="article-body">
+
+<p>„Tu dir mal was Gutes", haben sie gesagt.</p>
+<p>„Du wirst es nicht bereuen", haben sie gesagt.</p>
+<p>Und so stand ich drei Wochen nach dem Ende einer Beziehung, die ich mir anders vorgestellt hatte, auf dem Sonnendeck der AIDA Nova. Cocktail in der Hand. Sonnenbrille auf. 6.000 Mitpassagiere um mich herum, die alle irgendwie wussten, was sie hier sollten.</p>
+<p>Ich nicht.</p>
+<p>Und ich konnte nicht umhin, mich zu fragen: <strong>Was macht man mit einer Trennung, wenn man ihr nicht entkommen kann – nicht mal auf dem offenen Meer?</strong></p>
+<hr />
+<h2>Flucht gebucht. Gedanken nicht abgereist.</h2>
+<p>Das ist das Ding, das niemand dir sagt, wenn du nach einer Trennung versuchst, „auf andere Gedanken zu kommen":</p>
+<p>Die Gedanken kommen mit.</p>
+<p>Sie buchen sich einfach dazu. Kein Aufpreis, kein Gepäck, keine Voranmeldung. Sie sitzen beim Frühstücksbuffet neben dir. Sie stehen mit dir auf dem Deck, wenn die Küste langsam aus dem Blickfeld verschwindet. Sie liegen nachts in der Kabine und starren an dieselbe Decke wie du.</p>
+<p>6.000 Passagiere auf diesem Schiff. Und ich hatte das Gefühl, sie alle gleichzeitig im Kopf zu haben.</p>
+<p>Den Gedanken, der fragt: <em>Hätte ich es anders machen können?</em>
+Den, der sagt: <em>Sie fehlt dir.</em>
+Den, der antwortet: <em>Aber weißt du noch, warum es nicht funktioniert hat?</em>
+Den, der dazwischenfunkt: <em>Vielleicht doch nochmal schreiben?</em>
+Den letzten, der alle anderen zum Schweigen bringt: <em>Lass es.</em></p>
+<p>Eine Kreuzfahrt mit 6.000 Passagieren. Alle durcheinander. Alle gleichzeitig. Alle mit Meinung.</p>
+<hr />
+<h2>Das Meer</h2>
+<p>Draußen war das Meer. Immer.</p>
+<p>Manchmal ruhig und glatt wie ein Spiegel. Manchmal unruhig, mit Wellen, die das Schiff ein bisschen schaukelten. Manchmal nachts so dunkel und weit, dass man nicht wusste, wo Wasser aufhörte und Himmel anfing.</p>
+<p>Und das Schiff fuhr. Mit oder ohne meine Zustimmung. Es legte ab, wenn es ablegte. Es kam an, wann es ankam. Und egal wie sehr ich auf dem Deck stand und den Horizont anstarrte, ich konnte die Ankunft weder beschleunigen noch hinauszögern.</p>
+<p>Trennung verarbeiten funktioniert genauso. Nicht durch schiere Willenskraft. Nicht durch einen Plan, der den Schmerz auf Schnelldurchlauf stellt. Irgendwas steuert dieses Schiff, und es bist nicht du.</p>
+<p>Das ist für uns Männer besonders schwer zu akzeptieren. Wir sind es gewohnt, Probleme zu lösen. Pläne zu machen. Die Kontrolle zu behalten. Eine Trennung lässt sich nicht lösen. Sie lässt sich nur durchfahren.</p>
+<hr />
+<h2>6.000 Passagiere – und alle wollen was von dir</h2>
+<p>Die ersten Tage habe ich versucht, die Passagiere zu ignorieren.</p>
+<p>Kopfhörer rein, Liegestuhl, Buch aufgeschlagen, das ich nicht gelesen habe. Abendessen allein, Blick aufs Meer, so tun als wäre man der Typ, der das genießt.</p>
+<p>Hat nicht funktioniert.</p>
+<p>Denn die 6.000 Passagiere – die Gedanken, die Gefühle, die Fragen, die Erinnerungen, die Dynamiken einer Beziehung, die gerade auseinandergebrochen war – die sind nicht weg, wenn man sie ignoriert. Sie werden lauter. Sie klopfen. Sie bestellen sich Drinks an deinen Liegestuhl und setzen sich uneingeladen dazu.</p>
+<p>Irgendwann habe ich aufgehört zu kämpfen.</p>
+<p>Nicht weil ich aufgegeben hatte. Sondern weil ich gemerkt hatte: Kämpfen kostet mehr Energie als Zuhören.</p>
+<p>Also habe ich zugehört. Dem Gedanken, der fragte, ob ich einen Fehler gemacht hatte. Dem Schmerz, der nicht verschwinden wollte. Der Wut, die manchmal kam, wenn ich am wenigsten damit rechnete. Der Trauer, die sich manchmal wie Erleichterung anfühlte und manchmal wie das Gegenteil.</p>
+<p>Ich habe sie alle sitzen lassen. Ohne sie wegzuschicken. Ohne ihnen recht zu geben.</p>
+<p>Und das Meer rauschte weiter, und das Schiff fuhr weiter, und keiner von uns hatte einen Plan außer dem nächsten Hafen.</p>
+<hr />
+<h2>Die Erkenntnis kam beim Frühstücksbuffet</h2>
+<p>Es war der vierte Tag. Rührei, Croissant, Kaffee, der etwas zu stark war.</p>
+<p>Ich saß da und schaute auf die anderen Passagiere. Familien. Paare. Rentner, die schon wussten, wo der beste Platz auf dem Sonnendeck war. Einzelreisende wie ich, die so taten, als wären sie genau hier, wo sie sein wollten.</p>
+<p>Und plötzlich dachte ich: Das hier – das alles – gehört dazu.</p>
+<p>Die 6.000 Passagiere in meinem Kopf. Das Schiff, das fährt ohne meine Erlaubnis. Das Meer, das ich nicht kontrollieren kann. Die Ankunft, die kommt, wann sie kommt. Der Schmerz, der Zweifel, die Fragen ohne Antworten.</p>
+<p>Es gehört alles dazu. Zum Prozess. Zur Reise. Zu dem, was es bedeutet, eine Beziehung wirklich zu verarbeiten – nicht zu überleben, nicht zu überspringen, sondern <em>zu durchfahren</em>.</p>
+<p>Nicht ich bin das alles. Aber es gehört zu mir. In diesem Moment. Auf diesem Schiff. Auf diesem Meer.</p>
+<hr />
+<h2>Was „das Beste daraus machen" wirklich bedeutet</h2>
+<p>Es bedeutet nicht, glücklich zu sein.</p>
+<p>Es bedeutet nicht, so zu tun, als wäre alles okay. Es bedeutet nicht, die Kreuzfahrt zu genießen wie jemand, dessen Herz gerade heil ist.</p>
+<p>Es bedeutet: präsent sein. Auf dem Schiff sein, das abgelegt hat. Das Frühstücksbuffet nehmen. Den Kaffee trinken. Aufs Meer schauen. Die Gedanken sitzen lassen, ohne von ihnen gesteuert zu werden.</p>
+<p>Ich bin nicht der Kapitän. Aber ich bin auch kein Passagier, der nur mitfährt. Ich bin derjenige, der entscheidet, wie er die Reise verbringt.</p>
+<p>Nicht das Ziel. Nicht die Ankunftszeit. Nicht das Wetter. Aber die Haltung. Die Aufmerksamkeit. Das, was man aus den Stunden macht, die man hat, während das Schiff fährt.</p>
+<hr />
+<p>„Tu dir mal was Gutes", haben sie gesagt.</p>
+<p>„Du wirst es nicht bereuen", haben sie gesagt.</p>
+<p>Sie hatten nicht ganz unrecht. Aber nicht aus den Gründen, die sie dachten.</p>
+<p>Ich habe auf dieser Kreuzfahrt nicht die Trennung vergessen. Ich habe sie mitgenommen, alle 6.000 Passagiere, das ganze laute, chaotische Gepäck. Und irgendwo zwischen dem Frühstücksbuffet und dem offenen Meer habe ich aufgehört, dagegen anzukämpfen.</p>
+<p>Das Schiff legt an, wann es anlegt.</p>
+<p>Bis dahin fährt man.</p>
+
+</article>
+
+<div class="article-signature">— Damian</div>
+
+<div class="book-cta">
+  <div class="book-cta-label">Wenn du tiefer einsteigen willst</div>
+  <div class="book-cta-title">Silent Rebuild — der Guide für Männer nach der Trennung</div>
+  <div class="book-cta-text">Ein strukturierter Begleiter durch diese Phase, mit konkreten Werkzeugen für jede Woche, mit psychologischer Tiefe ohne leere Versprechen. Vom ersten Schock bis zu dem Punkt, an dem du wieder fest stehst.</div>
+  <a href="https://www.checkout-ds24.com/product/687104" target="_blank" class="book-cta-button">Mehr erfahren →</a>
+</div>
+
+<section class="related">
+  <div class="related-label">Aus dem Logbuch</div>
+  <div class="related-title">Das könnte dich auch berühren.</div>
+  <div class="related-grid">
+    <a href="liebeskummer-mann-stromausfall.html" class="related-card">
+      <div class="related-card-meta">Kolumne</div>
+      <div class="related-card-title">Liebeskummer als Mann</div>
+      <div class="related-card-excerpt">Es war ein ganz normaler Dienstagabend. Und dann: nichts. Stromausfall …</div>
+    </a>
+    <a href="wie-lange-dauert-liebeskummer.html" class="related-card">
+      <div class="related-card-meta">Kolumne</div>
+      <div class="related-card-title">Wie lange dauert Liebeskummer</div>
+      <div class="related-card-excerpt">Meine Mutter hat immer Sauerteigbrot gebacken. Das echte. Das, das zwei Tage braucht …</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">SILENT REBUILD<span class="dot"></span></div>
+  <div>
+    <a href="../index.html#impressum">Impressum</a>
+    <a href="../index.html#datenschutz">Datenschutz</a>
+    <a href="../index.html#agb">AGB</a>
+    <a href="mailto:info.silentrebuild@gmail.com">Kontakt</a>
+  </div>
+  <div style="margin-top:1rem;font-size:0.7rem;">© Silent Rebuild · Damian</div>
+</footer>
+
+</body>
+</html>

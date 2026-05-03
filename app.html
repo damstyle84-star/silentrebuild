@@ -122,43 +122,142 @@
   #view-quiz, #view-content { display: none; }
   #view-quiz.active, #view-content.active { display: block; }
 
-  /* Password gate */
-  #pw-gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 24px; }
+  /* Password gate – V5 Floating Modal mit App-Vorschau */
+  #pw-gate { position: fixed; inset: 0; background: var(--bg); z-index: 999; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
   #pw-gate.hidden { display: none; }
-  .pw-box { max-width: 420px; width: 100%; }
-  .pw-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
-  .pw-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
-  .pw-brand-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; }
-  .pw-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2rem, 8vw, 3rem); font-weight: 800; text-transform: uppercase; line-height: 1.05; color: var(--text); margin-bottom: 8px; }
+  .pw-scroll { max-width: 720px; margin: 0 auto; padding: 32px 20px 32px 20px; min-height: 100%; display: flex; flex-direction: column; }
+
+  /* Brand row in gate */
+  .pw-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+  .pw-brand-row .pw-brand-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .pw-brand-row .pw-brand-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.28em; color: var(--text-dim); text-transform: uppercase; }
+  .pw-brand-row .pw-brand-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border) 0%, transparent 100%); }
+
+  /* Preview-Sections */
+  .pw-section { margin-bottom: 24px; }
+  .pw-divider { display: flex; align-items: center; gap: 14px; margin: 32px 0; opacity: 0.6; }
+  .pw-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+  .pw-divider-dot { width: 5px; height: 5px; background: var(--orange); border-radius: 50%; }
+
+  .pw-label-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .pw-label-tag::before { content: ''; width: 12px; height: 1px; background: var(--orange); opacity: 0.5; }
+
+  /* NC Tracker preview */
+  .pw-nc { background: #14100a; border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 22px 24px; position: relative; overflow: hidden; }
+  .pw-nc::before { content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, rgba(200,105,26,0.12) 0%, transparent 70%); pointer-events: none; }
+  .pw-nc-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .pw-nc-info { max-width: 240px; }
+  .pw-nc-label { font-family: 'Lora', serif; font-style: italic; font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; }
+  .pw-nc-controls { display: flex; align-items: center; gap: 14px; }
+  .pw-nc-btn { background: transparent; border: 1.5px solid var(--border); color: var(--text-dim); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 300; }
+  .pw-nc-num-wrap { text-align: center; min-width: 80px; }
+  .pw-nc-num { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.6rem, 7vw, 4rem); font-weight: 800; color: var(--orange); line-height: 0.9; text-shadow: 0 0 30px rgba(200,105,26,0.15); }
+  .pw-nc-unit { font-family: 'Barlow Condensed', sans-serif; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.25em; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
+  /* Quiz preview */
+  .pw-quiz-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .pw-quiz-tag::before { content: ''; width: 12px; height: 1px; background: var(--orange); opacity: 0.5; }
+  .pw-quiz-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); margin-bottom: 20px; line-height: 1.2; padding-left: 14px; border-left: 3px solid var(--orange); }
+  .pw-quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .pw-quiz-option { background: #14100a; border: 1.5px solid var(--border); padding: 13px 18px; display: flex; align-items: center; gap: 12px; font-family: 'Lora', serif; font-size: 0.82rem; line-height: 1.5; color: var(--text-dim); }
+  .pw-quiz-option.selected { border-color: var(--orange); color: var(--text); background: rgba(200,105,26,0.06); }
+  .pw-quiz-option-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--text-muted); flex-shrink: 0; }
+  .pw-quiz-option.selected .pw-quiz-option-dot { background: var(--orange); border-color: var(--orange); box-shadow: 0 0 10px rgba(200,105,26,0.3); }
+
+  /* Mantra preview */
+  .pw-mantra { background: #14100a; border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 22px 24px; position: relative; }
+  .pw-mantra-text { font-family: 'Lora', serif; font-style: italic; font-size: 0.95rem; color: var(--text); line-height: 1.7; }
+
+  /* Floating Login Modal */
+  .pw-floating { position: sticky; bottom: 16px; z-index: 50; max-width: 520px; margin: 32px auto 0 auto; background: rgba(14,12,9,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1.5px solid var(--orange); padding: 28px 26px; box-shadow: 0 0 0 1px rgba(200,105,26,0.15), 0 30px 80px rgba(0,0,0,0.85); }
+  .pw-floating-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,105,26,0.06); border: 1px solid rgba(200,105,26,0.25); padding: 5px 12px; border-radius: 100px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #D4833A; margin-bottom: 16px; }
+  .pw-floating-tag::before { content: '🔒'; font-size: 0.7rem; }
+
+  .pw-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.6rem, 4.5vw, 2.2rem); font-weight: 800; text-transform: uppercase; line-height: 1; color: var(--text); margin-bottom: 8px; }
   .pw-title span { color: var(--orange); }
-  .pw-sub { font-family: 'Lora', serif; font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin-bottom: 28px; line-height: 1.7; }
-  .pw-input { width: 100%; background: #14100a; border: 1px solid var(--border); border-left: 3px solid var(--orange); color: var(--text); padding: 14px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; letter-spacing: 0.1em; outline: none; margin-bottom: 12px; transition: border-color 0.2s; display: block; }
+  .pw-sub { font-family: 'Lora', serif; font-size: 0.8rem; color: var(--text-dim); font-style: italic; margin-bottom: 20px; line-height: 1.7; }
+  .pw-input { width: 100%; background: #14100a; border: 1.5px solid var(--border); border-left: 3px solid var(--orange); color: var(--text); padding: 13px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; outline: none; margin-bottom: 12px; transition: border-color 0.2s; display: block; }
   .pw-input:focus { border-color: var(--orange-light); }
   .pw-input.error { border-color: #a03020; }
-  .pw-input::placeholder { color: var(--text-muted); letter-spacing: 0.05em; }
-  .pw-btn { width: 100%; background: var(--orange); border: none; color: #0a0806; padding: 14px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; transition: background 0.2s; }
+  .pw-input::placeholder { color: var(--text-muted); letter-spacing: 0.05em; font-weight: 400; }
+  .pw-btn { width: 100%; background: var(--orange); border: none; color: #0a0806; padding: 14px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; transition: background 0.2s; }
   .pw-btn:hover { background: var(--orange-light); }
   .pw-error { font-family: 'Lora', serif; font-size: 0.75rem; color: #b05040; font-style: italic; margin-top: 10px; display: none; }
   .pw-error.visible { display: block; }
   .pw-hint { font-family: 'Lora', serif; font-size: 0.72rem; color: var(--text-muted); margin-top: 16px; line-height: 1.6; font-style: italic; }
+  .pw-hint a { color: var(--orange); text-decoration: none; }
+
+  @media (max-width: 480px) {
+    .pw-scroll { padding: 24px 16px; }
+    .pw-floating { padding: 22px 20px; bottom: 8px; }
+    .pw-nc-controls { gap: 10px; }
+    .pw-nc-btn { width: 36px; height: 36px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Password Gate -->
+<!-- Password Gate – V5 mit App-Vorschau -->
 <div id="pw-gate">
-  <div class="pw-box">
-    <div class="pw-brand">
+  <div class="pw-scroll">
+
+    <div class="pw-brand-row">
       <div class="pw-brand-dot"></div>
       <span class="pw-brand-name">Silent Rebuild</span>
+      <div class="pw-brand-line"></div>
     </div>
-    <div class="pw-title">Exklusiv<br><span>für Käufer.</span></div>
-    <p class="pw-sub">Gib dein persönliches Zugangswort ein.<br>Du findest es auf der letzten Seite deines Guides.</p>
-    <input class="pw-input" id="pw-input" type="password" placeholder="Zugangswort eingeben"
-      onkeydown="if(event.key==='Enter') checkPW()" autocomplete="off" />
-    <button class="pw-btn" onclick="checkPW()">Zugang freischalten →</button>
-    <p class="pw-error" id="pw-error">Falsches Zugangswort. Schau nochmal in deinen Guide.</p>
-    <p class="pw-hint">Noch kein Guide? <a href="https://www.checkout-ds24.com/product/687104" target="_blank" style="color:var(--orange);text-decoration:none;">Hier kaufen →</a></p>
+
+    <!-- NC Tracker Preview -->
+    <div class="pw-section">
+      <div class="pw-nc">
+        <div class="pw-label-tag" style="margin-bottom:14px">No Contact Tracker</div>
+        <div class="pw-nc-inner">
+          <div class="pw-nc-info"><div class="pw-nc-label">Echter Fortschritt. Weiter.</div></div>
+          <div class="pw-nc-controls">
+            <div class="pw-nc-btn">−</div>
+            <div class="pw-nc-num-wrap"><div class="pw-nc-num">47</div><div class="pw-nc-unit">TAGE</div></div>
+            <div class="pw-nc-btn">+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pw-divider"><div class="pw-divider-line"></div><div class="pw-divider-dot"></div><div class="pw-divider-line"></div></div>
+
+    <!-- Quiz Preview -->
+    <div class="pw-section">
+      <div class="pw-quiz-tag">Selbst-Check · Phase 1 von 5</div>
+      <div class="pw-quiz-title">In welcher Phase<br>bist du gerade?</div>
+      <div class="pw-quiz-options">
+        <div class="pw-quiz-option"><div class="pw-quiz-option-dot"></div><span>Ich glaube noch nicht wirklich, dass es vorbei ist</span></div>
+        <div class="pw-quiz-option selected"><div class="pw-quiz-option-dot"></div><span>Ich fühle tiefen Schmerz und Selbstvorwürfe</span></div>
+        <div class="pw-quiz-option"><div class="pw-quiz-option-dot"></div><span>Ich bin wütend – auf sie, auf die Situation</span></div>
+        <div class="pw-quiz-option"><div class="pw-quiz-option-dot"></div><span>Ich denke ständig, was ich anders hätte machen können</span></div>
+      </div>
+    </div>
+
+    <div class="pw-divider"><div class="pw-divider-line"></div><div class="pw-divider-dot"></div><div class="pw-divider-line"></div></div>
+
+    <!-- Mantra Preview -->
+    <div class="pw-section">
+      <div class="pw-mantra">
+        <div class="pw-label-tag" style="margin-bottom:12px">Tages-Mantra</div>
+        <p class="pw-mantra-text">Kein Kontakt ist Selbstrespekt.</p>
+      </div>
+    </div>
+
+    <!-- Floating Login Modal -->
+    <div class="pw-floating">
+      <div class="pw-floating-tag">Zugang erforderlich</div>
+      <div class="pw-title">Voll-Zugang<br><span>für Käufer.</span></div>
+      <p class="pw-sub">Das Passwort für die App findest du auf der letzten Seite des Buches.</p>
+      <input class="pw-input" id="pw-input" type="password" placeholder="Zugangswort eingeben"
+        onkeydown="if(event.key==='Enter') checkPW()" autocomplete="off" />
+      <button class="pw-btn" onclick="checkPW()">Zugang freischalten →</button>
+      <p class="pw-error" id="pw-error">Falsches Zugangswort. Schau nochmal in deinen Guide.</p>
+      <p class="pw-hint">Noch kein Guide? <a href="https://www.checkout-ds24.com/product/687104" target="_blank">Hier kaufen →</a></p>
+    </div>
+
   </div>
 </div>
 

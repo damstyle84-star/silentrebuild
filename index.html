@@ -541,6 +541,134 @@
     .mockup-tab { flex:1; height:20px; background:var(--border); border-radius:2px; }
     .mockup-tab.active { background:var(--accent); opacity:0.6; }
 
+  
+    /* ── MOBILE MENÜ ── */
+    .burger {
+      display:none;
+      position:relative; z-index:201;
+      background:none; border:none; cursor:pointer;
+      width:32px; height:32px;
+      padding:0;
+      flex-direction:column; justify-content:center; align-items:center;
+      gap:6px;
+    }
+    .burger span {
+      display:block;
+      width:22px; height:1px;
+      background:var(--light);
+      transition:transform 0.3s, opacity 0.2s;
+      transform-origin:center;
+    }
+    .burger.open span:nth-child(1) { transform:translateY(3.5px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity:0; }
+    .burger.open span:nth-child(3) { transform:translateY(-3.5px) rotate(-45deg); }
+
+    /* Slide-In Panel */
+    .mobile-menu {
+      display:none;
+      position:fixed; top:0; right:0; bottom:0;
+      width:min(360px, 88vw);
+      background:rgba(17,16,9,0.98);
+      backdrop-filter:blur(24px);
+      border-left:1px solid var(--border);
+      z-index:200;
+      transform:translateX(100%);
+      transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      overflow-y:auto;
+      padding:5rem 0 3rem;
+    }
+    .mobile-menu.open { transform:translateX(0); }
+
+    /* Backdrop hinter dem Menü */
+    .mobile-backdrop {
+      display:none;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,0.5);
+      z-index:199;
+      opacity:0;
+      transition:opacity 0.3s;
+    }
+    .mobile-backdrop.open { opacity:1; }
+
+    /* Menü-Inhalt */
+    .mm-list { list-style:none; padding:0; margin:0; }
+    .mm-item { border-bottom:1px solid rgba(255,255,255,0.04); }
+    .mm-item:last-child { border-bottom:none; }
+
+    .mm-link, .mm-toggle {
+      display:flex; align-items:center; justify-content:space-between;
+      width:100%; padding:1.1rem 1.8rem;
+      color:var(--sand); font-family:'DM Sans',sans-serif;
+      font-size:0.95rem; font-weight:300;
+      letter-spacing:0.04em; text-decoration:none;
+      background:none; border:none; cursor:pointer;
+      text-align:left;
+      transition:color 0.2s, background 0.2s;
+    }
+    .mm-link:hover, .mm-link:active,
+    .mm-toggle:hover, .mm-toggle:active { color:var(--light); background:rgba(255,255,255,0.02); }
+
+    .mm-chevron {
+      font-size:0.7rem; color:var(--accent); opacity:0.6;
+      transition:transform 0.3s;
+    }
+    .mm-toggle.open .mm-chevron { transform:rotate(180deg); }
+
+    /* Akkordeon */
+    .mm-sub {
+      max-height:0; overflow:hidden;
+      background:rgba(0,0,0,0.25);
+      transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mm-sub.open { max-height:600px; }
+    .mm-sub-label {
+      padding:1rem 1.8rem 0.4rem;
+      font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase;
+      color:var(--accent); font-weight:500;
+    }
+    .mm-sub a {
+      display:block; padding:0.7rem 1.8rem;
+      color:var(--sand); font-size:0.85rem;
+      text-decoration:none;
+      transition:color 0.2s, background 0.2s;
+    }
+    .mm-sub a:hover { color:var(--light); background:rgba(255,255,255,0.03); }
+    .mm-sub-divider {
+      height:1px; background:rgba(255,255,255,0.05);
+      margin:0.5rem 1.8rem;
+    }
+
+    /* CTA Button im Menü */
+    .mm-cta {
+      margin:1.5rem 1.8rem 0.5rem;
+      display:block;
+      padding:1rem 1.5rem;
+      text-align:center;
+      background:var(--accent);
+      color:var(--bg) !important;
+      font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase;
+      font-weight:500;
+      text-decoration:none;
+      border-radius:2px;
+      transition:opacity 0.2s, transform 0.2s;
+    }
+    .mm-cta:hover { opacity:0.9; transform:translateX(2px); }
+
+    .mm-soon-tag {
+      font-size:0.6rem; letter-spacing:0.1em;
+      color:var(--accent); margin-left:0.5rem;
+    }
+
+    /* Scroll-Lock für Body wenn Menü offen */
+    body.menu-open { overflow:hidden; }
+
+    /* Anzeigen unter 900px */
+    @media(max-width:900px) {
+      .burger { display:flex; }
+      .mobile-menu { display:block; }
+      .mobile-backdrop { display:block; }
+    }
+
   </style>
 </head>
 <body id="top">
@@ -594,7 +722,70 @@
       <a href="#kaufen" class="nav-cta">Jetzt kaufen</a>
     </li>
   </ul>
+  <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile Backdrop -->
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+<!-- Mobile Menu Panel -->
+<aside class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation">
+  <ul class="mm-list">
+
+    <!-- E-Books mit Akkordeon -->
+    <li class="mm-item">
+      <button class="mm-toggle" data-target="sub-ebooks">
+        E-Books
+        <span class="mm-chevron">▾</span>
+      </button>
+      <div class="mm-sub" id="sub-ebooks">
+        <div class="mm-sub-label">Hauptprodukt</div>
+        <a href="#kaufen" class="mm-close-trigger">Silent Rebuild — Das Buch</a>
+        <div class="mm-sub-divider"></div>
+        <div class="mm-sub-label">Sonderfall-Module</div>
+        <a href="#sonderfall" class="mm-close-trigger">Wir wohnen noch zusammen</a>
+        <a href="#sonderfall" class="mm-close-trigger">Wir arbeiten zusammen</a>
+        <a href="#sonderfall" class="mm-close-trigger">Wir haben gemeinsame Kinder</a>
+        <a href="#sonderfall" class="mm-close-trigger">Geteilter Freundeskreis</a>
+        <a href="#sonderfall" class="mm-close-trigger">Sie signalisiert wieder Interesse</a>
+      </div>
+    </li>
+
+    <li class="mm-item">
+      <a href="blog.html" class="mm-link">Blog</a>
+    </li>
+
+    <li class="mm-item">
+      <a href="app.html" class="mm-link">App</a>
+    </li>
+
+    <!-- Produkte mit Akkordeon -->
+    <li class="mm-item">
+      <button class="mm-toggle" data-target="sub-produkte">
+        Produkte
+        <span class="mm-chevron">▾</span>
+      </button>
+      <div class="mm-sub" id="sub-produkte">
+        <div class="mm-sub-label">Begleitung</div>
+        <a href="#feldkompass" class="mm-close-trigger">Feldkompass — 12 Monate Rebuild</a>
+      </div>
+    </li>
+
+    <li class="mm-item">
+      <a href="#coaching" class="mm-link" onclick="showComingSoon(event)">
+        Coaching<span class="mm-soon-tag">SOON</span>
+      </a>
+    </li>
+
+  </ul>
+
+  <a href="#kaufen" class="mm-cta mm-close-trigger">Jetzt kaufen</a>
+</aside>
+
 
 <main>
 
@@ -1306,6 +1497,67 @@ document.fonts.ready.then(() => {
     <p>Änderungen oder Ergänzungen bedürfen der Textform.</p>
   </div>
 </div>
+
+
+<script>
+(function(){
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('mobileMenu');
+  const backdrop = document.getElementById('mobileBackdrop');
+  const body = document.body;
+
+  if (!burger || !menu || !backdrop) return;
+
+  function openMenu() {
+    burger.classList.add('open');
+    menu.classList.add('open');
+    backdrop.classList.add('open');
+    body.classList.add('menu-open');
+    burger.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    burger.classList.remove('open');
+    menu.classList.remove('open');
+    backdrop.classList.remove('open');
+    body.classList.remove('menu-open');
+    burger.setAttribute('aria-expanded', 'false');
+    // alle Akkordeons schließen
+    document.querySelectorAll('.mm-toggle.open').forEach(t => t.classList.remove('open'));
+    document.querySelectorAll('.mm-sub.open').forEach(s => s.classList.remove('open'));
+  }
+
+  burger.addEventListener('click', function() {
+    if (menu.classList.contains('open')) closeMenu();
+    else openMenu();
+  });
+
+  backdrop.addEventListener('click', closeMenu);
+
+  // Akkordeon-Logik
+  document.querySelectorAll('.mm-toggle').forEach(toggle => {
+    toggle.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-target');
+      const sub = document.getElementById(targetId);
+      if (!sub) return;
+      this.classList.toggle('open');
+      sub.classList.toggle('open');
+    });
+  });
+
+  // Klick auf Link im Menü -> schließen (mit kleinem Delay damit Scroll noch funktioniert)
+  document.querySelectorAll('.mm-close-trigger, .mm-link').forEach(link => {
+    link.addEventListener('click', function() {
+      setTimeout(closeMenu, 120);
+    });
+  });
+
+  // ESC-Taste schließt das Menü
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
 
 </body>
 </html>
